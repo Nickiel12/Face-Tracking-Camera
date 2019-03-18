@@ -1,6 +1,8 @@
 import imutils
 import cv2
 
+cap = cv2.VideoCapture(0, cv2.IMREAD_GRAYSCALE)
+
 face_cascade = cv2.CascadeClassifier(r'C:\Python37-84-64\Lib\site-packages\cv2\data\haarcascade_frontalface_default.xml')
 face_side_cascade = cv2.CascadeClassifier(r"C:\Python37-84-64\Lib\site-packages\cv2\data\haarcascade_profileface.xml")
 
@@ -44,7 +46,7 @@ while True:
     totalTime += time
     timeDivid += 1 
 
-print('number of faces grabbed out of total is ' + str(faceGrab) + ' of ' + str(timeDvi))
+print('number of faces grabbed out of total is ' + str(faceGrab) + ' of ' + str(timeDivid))
 avgTime = totalTime/timeDivid
 print('total ticks = ' + str(timeDivid))
 print('tick avg = ' + str(avgTime))
