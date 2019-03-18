@@ -1,0 +1,3 @@
+Setup should only be:
+
+pip install opencv-python numpy matplotlib
