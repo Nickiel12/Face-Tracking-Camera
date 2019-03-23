@@ -61,18 +61,4 @@ cap.release()
 cap.destroyAllWindows()
 
 
-# you can save the image with 
-# cv2.imwrite('watchgray.png',img)
 
-'''
-instead of the above code you can replace everything below 
-img = cv2....
-with
-
-plt.imshow(img, cmap = 'gray', interpolation = 'bicubic')
-plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
-plt.plot([200,300,400],[100,200,300],'c', linewidth=5)
-plt.show()
-
-for a matplotlib chart
-'''
