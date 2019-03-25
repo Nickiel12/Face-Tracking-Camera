@@ -1,6 +1,6 @@
 import serial
 
-Com = 'COM10' #change this to your arduino's COM port
+Com = 'COM5' #change this to your arduino's COM port
 
 arduino = serial.Serial(Com, 9600, timeout=.1) #Open the Serial Port
 while True:

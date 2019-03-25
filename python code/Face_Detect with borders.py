@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import pathlib
 
 def check_within(imgSize, baseMultiplier, currentX, currentY, currentW, currentH):
     
@@ -25,7 +26,7 @@ def check_within(imgSize, baseMultiplier, currentX, currentY, currentW, currentH
         return(0, 255, 0)
 
 cap = cv2.VideoCapture(0, cv2.IMREAD_GRAYSCALE) # instead of grayscale you can also use -1, 0, or 1.
-faceCascade = cv2.CascadeClassifier(r"C:\Users\Owner\Desktop\Face Detection\haar_frontface.xml") # CHECK THIS FIRST TROUBLE SHOOTING
+faceCascade = cv2.CascadeClassifier(r"C:\Users\nicho\OneDrive\Documents\GitHub\Face-Tracking-Camera\python code\Cascades\haarcascade_frontalface_default.xml") # CHECK THIS FIRST TROUBLE SHOOTING
 
 tmp, frm = cap.read()
 height, width, channels = frm.shape
@@ -52,7 +53,7 @@ while(True):
         color = check_within([height, width], .1, x, y, w, h)
         cv2.rectangle(frame, (int(width*.1), int(height*.1)), (int(width*.9), int(height*.9)), (150, 0 , 150))
         cv2.rectangle(frame, (x, y), (x+w, y+h), color)
-        cv2.imshow('frame', frame)
+    cv2.imshow('frame', frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
