@@ -14,13 +14,13 @@ def check_within(imgSize, baseMultiplier, currentX, currentY, currentW, currentH
 
     print(str(baseYbottom) + "    " + str(currentY))
 
-    if baseYbottom > currentY:
+    if baseYbottom > currentY: # to the top
         return (255, 255, 255)
-    elif baseYTop < currentBottomY:
+    elif baseYTop < currentBottomY: #to the bottom
         return (0, 0, 0)
-    elif baseXRight > currentX:
+    elif baseXRight > currentX: #to the right
         return (255, 0, 0)
-    elif baseXLeft < currentRightX:
+    elif baseXLeft < currentRightX: #to the left
         return (0, 0, 255)
     else:
         return(0, 255, 0)
