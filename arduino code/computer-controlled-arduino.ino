@@ -27,10 +27,10 @@ void loop() {
                     case 'd': //down
                         break;
                     case 'l': //left
-                        turnServo.write(84);
+                        turnServo.write(85);
                         break;
                     case 'r': //right
-                        turnServo.write(97);
+                        turnServo.write(96);
                         break;
                     case 's': //stop
                         Stop();
