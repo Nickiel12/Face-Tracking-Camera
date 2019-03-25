@@ -6,7 +6,7 @@ import logging
 
 logging.basicConfig()
 
-Servo = arduino.Controller('COM5', BaudRate= 9600).Servo()
+Servo = arduino.Controller('COM10', BaudRate= 9600).Servo()
 
 def check_within(imgSize, baseMultiplier, currentX, currentY, currentW, currentH):
     
