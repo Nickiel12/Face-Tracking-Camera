@@ -58,6 +58,9 @@ while(True):
     minSize=(30, 30)
     )
 
+    if len(faces) == 0:
+        Servo.stop()
+
     print("Found {0} faces!".format(len(faces)))
 
     # Draw a rectangle around the faces
