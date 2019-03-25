@@ -22,15 +22,20 @@ void loop() {
                 Serial.write(incomingByte);
 
                 switch (incomingByte){
-                    case 'a':
-                        turnServo.write(84);
-                        Serial.write('Got an a');
+                    case 'u': //up
                         break;
-                    case 'b':
+                    case 'd': //down
+                        break;
+                    case 'l': //left
                         turnServo.write(97);
                         break;
-                    case 'c':
-                        Serial.write('Stopping');
+                    case 'r': //right
+                        turnServo.write(84);
+                        break;
+                    case 's': //stop
+                        Stop();
+                        break;
+                    default:
                         Stop();
                         break;
 
