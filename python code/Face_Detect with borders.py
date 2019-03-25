@@ -1,6 +1,12 @@
 import cv2
 import numpy as np
 import pathlib
+import arduino
+import logging
+
+logging.basicConfig()
+
+Servo = arduino.Controller('COM5', BaudRate= 9600).Servo()
 
 def check_within(imgSize, baseMultiplier, currentX, currentY, currentW, currentH):
     
@@ -15,19 +21,25 @@ def check_within(imgSize, baseMultiplier, currentX, currentY, currentW, currentH
     print(str(baseYbottom) + "    " + str(currentY))
 
     if baseYbottom > currentY: # to the top
+        Servo.up()
         return (255, 255, 255)
-    elif baseYTop < currentBottomY: #to the bottom
+    elif baseYTop < currentBottomY: #to the botto
+        Servo.down()
         return (0, 0, 0)
     elif baseXRight > currentX: #to the right
+        Servo.right()
         return (255, 0, 0)
     elif baseXLeft < currentRightX: #to the left
+        Servo.left()
         return (0, 0, 255)
     else:
+        Servo.stop()
         return(0, 255, 0)
 
 cap = cv2.VideoCapture(0, cv2.IMREAD_GRAYSCALE) # instead of grayscale you can also use -1, 0, or 1.
 faceCascade = cv2.CascadeClassifier(r"C:\Users\nicho\OneDrive\Documents\GitHub\Face-Tracking-Camera\python code\Cascades\haarcascade_frontalface_default.xml") # CHECK THIS FIRST TROUBLE SHOOTING
 
+assert type(cap) != None, 'No Camera'
 tmp, frm = cap.read()
 height, width, channels = frm.shape
 print(f"{height*.25}, {width}")
