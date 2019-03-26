@@ -16,4 +16,4 @@ The following were used in the development of this project
 * 1 Webcam
 * BreadBoard & Jumper Wires
 
-![](Face follow_bb.png)
+![Wireing diagram](Face_follow_bb.png)
