@@ -1,6 +1,7 @@
 {
-    "port": "COM5",
-    "board": "arduino:avr:uno",
+    "port": "COM10",
+    "board": "arduino:avr:nano",
     "output": "../build",
-    "sketch": "arduino code\\computer-controlled-arduino.ino"
+    "sketch": "arduino code\\computer-controlled-arduino.ino",
+    "configuration": "cpu=atmega328"
 }

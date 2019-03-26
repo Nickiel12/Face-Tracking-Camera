@@ -23,7 +23,7 @@ def check_within(imgSize, baseMultiplier, currentX, currentY, currentW, currentH
     if baseYbottom > currentY: # to the top
         Servo.up()
         return (255, 255, 255)
-    elif baseYTop < currentBottomY: #to the botto
+    elif baseYTop < currentBottomY: #to the bottom
         Servo.down()
         return (0, 0, 0)
     elif baseXRight > currentX: #to the right

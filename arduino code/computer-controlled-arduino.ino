@@ -23,8 +23,10 @@ void loop() {
 
                 switch (incomingByte){
                     case 'u': //up
+                        tiltServo.write(88);
                         break;
                     case 'd': //down
+                        tiltServo.write(94);
                         break;
                     case 'l': //left
                         turnServo.write(85);
