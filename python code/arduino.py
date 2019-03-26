@@ -1,5 +1,8 @@
 import serial
 
+LOW = "LOW"
+HIGH = 'HIGH'
+
 class Controller():
 
     def __init__(self, COMPort, BaudRate = 9600): #Makes the Controller class
@@ -10,26 +13,51 @@ class Controller():
 
     class Servo():
         
-        upStr = 'u'.encode('utf-8')
-        downStr = 'd'.encode('utf-8')
-        leftStr = 'l'.encode('utf-8')
-        rightStr = 'r'.encode('utf-8')
+        upSlowStr = 'u'.encode('utf-8')
+        upFastStr = '1'.encode('utf-8')
+
+        downSlowStr = 'd'.encode('utf-8')
+        downFastStr = '2'.encode('utf-8')
+
+        leftSlowStr = 'l'.encode('utf-8')
+        leftFastStr = '3'.encode('utf-8')
+
+        rightSlowStr = 'r'.encode('utf-8')
+        rightFastStr = '4'.encode('utf-8')
+
         stopStr = 's'.encode('utf-8')
+        
 
         def __init__(self):
             self.arduino = Controller.arduino
         
-        def up(self):
-            self.arduino.write(self.upStr)
+        def up(self, level):
+            assert type(level) == str, 'Not a string'
+            if level == 'LOW':
+                self.arduino.write(self.upSlowStr)
+            elif level == "HIGH":
+                self.arduino.write(self.upFastStr)
 
-        def down(self):
-            self.arduino.write(self.downStr)
+        def down(self, level):
+            assert type(level) == str, 'Not a string'
+            if level == 'LOW':
+                self.arduino.write(self.downSlowStr)
+            elif level == "HIGH":
+                self.arduino.write(self.downFastStr)
 
-        def right(self):
-            self.arduino.write(self.rightStr)
+        def right(self, level):
+            assert type(level) == str, 'Not a string'
+            if level == 'LOW':
+                self.arduino.write(self.rightSlowStr)
+            elif level == "HIGH":
+                self.arduino.write(self.rightFastStr)
 
-        def left(self):
-            self.arduino.write(self.leftStr)
+        def left(self, level):
+            assert type(level) == str, 'Not a string'
+            if level == 'LOW':
+                self.arduino.write(self.leftSlowStr)
+            elif level == "HIGH":
+                self.arduino.write(self.leftFastStr)
 
         def stop(self):
             self.arduino.write(self.stopStr)
