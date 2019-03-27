@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-cap = cv2.VideoCapture(1 ,cv2.IMREAD_GRAYSCALE) # instead of grayscale you can also use -1, 0, or 1.
-faceCascade = cv2.CascadeClassifier(r"C:\Python37-84-64\Lib\site-packages\cv2\data\haarcascade_frontalface_default.xml")
+cap = cv2.VideoCapture(0 ,cv2.IMREAD_GRAYSCALE) # instead of grayscale you can also use -1, 0, or 1.
+faceCascade = cv2.CascadeClassifier(r"C:\Users\nicho\OneDrive\Documents\GitHub\Face-Tracking-Camera\Cascades\haarcascade_profileface.xml")
 
 #Color is 1, grayscale is 0, and the unchanged is -1
 while(True):
@@ -23,8 +23,8 @@ while(True):
     # Draw a rectangle around the faces
     for (x, y, w, h) in faces:
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-        cv2.imshow('frame',gray)
 
+    cv2.imshow('frame', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 

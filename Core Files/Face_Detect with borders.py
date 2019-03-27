@@ -30,7 +30,7 @@ def check_within(imgSize, baseMultiplier, secondMultiplier, currentX, currentY, 
     currentRightX = currentX + currentW
 
     print(str(baseYbottom) + "    " + str(currentY))
-    logging.debug(f'{baseYTop}    {centerYTop}')
+    logging.debug(f'{baseYTop}    {centerYTop}')  
 
     if centerYbottom > currentY: # to the top
         if baseYbottom > currentY: 
@@ -69,7 +69,7 @@ def check_within(imgSize, baseMultiplier, secondMultiplier, currentX, currentY, 
         return(0, 255, 0)
 
 cap = cv2.VideoCapture(0, cv2.IMREAD_GRAYSCALE) # instead of grayscale you can also use -1, 0, or 1.
-faceCascade = cv2.CascadeClassifier(r"C:\Users\nicho\OneDrive\Documents\GitHub\Face-Tracking-Camera\python code\Cascades\haarcascade_frontalface_default.xml") # CHECK THIS FIRST TROUBLE SHOOTING
+faceCascade = cv2.CascadeClassifier(r"C:\Users\nicho\OneDrive\Documents\GitHub\Face-Tracking-Camera\Cascades\haarcascade_frontalface_default.xml") # CHECK THIS FIRST TROUBLE SHOOTING
 
 assert type(cap) != None, 'No Camera'
 tmp, frm = cap.read()
