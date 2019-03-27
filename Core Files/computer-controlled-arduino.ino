@@ -9,7 +9,7 @@ void setup()
     turnServo.attach(10);
 
     Stop();
-    Serial.begin(9600);
+    Serial.begin(9600); 
 }
 
 void loop() {
@@ -46,7 +46,7 @@ void loop() {
                     case 'r': //right
                         turnServo.write(96);
                         break;
-                    case '4':
+                    case '4': //right fast
                         turnServo.write(97);
                         break;
 
