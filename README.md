@@ -1,14 +1,19 @@
 # Face-Tracking-Camera
 Includes all the files (minus the virtual environment) used to make my speaker-tracking camera platform
 
-The following pip installs and their dependicies are required to run these scripts:<br>
-<ul>
-<li><a href = "https://pypi.org/project/opencv-python/">opencv-python<a><li>
-<li><a href = "https://pypi.org/project/matplotlib/">matplotlib<a>
-<li><a href = "https://pypi.org/project/numpy/">numpy<a>
-<li><a href = "https://pypi.org/project/imutils/">imutils<a>
+The following pip installs and their dependicies are required to run these scripts:
 
+* [opencv-python](https://pypi.org/project/opencv-python/)
+* [matplotlib](https://pypi.org/project/matplotlib/)
+* [numpy](https://pypi.org/project/numpy/)
+* [imutils](https://pypi.org/project/imutils/)
 
+The following were used in the development of this project
 
+* Arduino Uno
+* 2 Parralax Continuous Rotation Servos
+* 1 4xAA Battery Pack
+* 1 Webcam
+* BreadBoard & Jumper Wires
 
-<ul>
+![Wireing diagram](Face_follow_bb.png)
