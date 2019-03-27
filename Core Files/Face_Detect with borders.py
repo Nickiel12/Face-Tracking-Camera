@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import pathlib
 import arduino
 import logging
 
