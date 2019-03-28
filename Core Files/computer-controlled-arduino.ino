@@ -30,7 +30,7 @@ void loop() {
                         break;
 
                     case 'd': //down
-                        tiltServo.write(92);
+                        tiltServo.write(91);
                         break;
                     case '2': //down fast
                         tiltServo.write(94);
