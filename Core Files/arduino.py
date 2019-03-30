@@ -24,8 +24,6 @@ class Controller():
 
         rightSlowStr = 'r'.encode('utf-8')
         rightFastStr = '4'.encode('utf-8')
-
-        stopStr = 's'.encode('utf-8')
         
 
         def __init__(self):
@@ -58,6 +56,3 @@ class Controller():
                 self.arduino.write(self.leftSlowStr)
             elif level == "HIGH":
                 self.arduino.write(self.leftFastStr)
-
-        def stop(self):
-            self.arduino.write(self.stopStr)

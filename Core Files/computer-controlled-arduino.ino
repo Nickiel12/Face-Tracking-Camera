@@ -1,15 +1,27 @@
-#include <Servo.h>
+#include <Wire.h>
+#include <Adafruit_MotorShield.h>
 
-Servo turnServo;
-Servo tiltServo;
+// Create the motor shield object with the default I2C address
+Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
+// Or, create it with a different I2C address (say for stacking)
+// Adafruit_MotorShield AFMS = Adafruit_MotorShield(0x61); 
 
-void setup()
-{
-    tiltServo.attach(9);
-    turnServo.attach(10);
+// Connect a stepper motor with 200 steps per revolution (1.8 degree)
+// to motor port #2 (M3 and M4)
+Adafruit_StepperMotor *tiltMotor = AFMS.getStepper(200, 2);
 
-    Stop();
-    Serial.begin(9600); 
+//Same as above, except for assigned to motor port #1, (M1 and M2)
+Adafruit_StepperMotor *turnMotor = AFMS.getStepper(200, 1);
+
+
+void setup() {
+  Serial.begin(9600);           // set up Serial library at 9600 bps
+
+  AFMS.begin();  // create with the default frequency 1.6KHz
+  //AFMS.begin(1000);  // OR with a different frequency, say 1KHz
+  
+  tiltMotor->setSpeed(15);  // 10 rpm   
+  turnMotor->setSpeed(15);
 }
 
 void loop() {
@@ -23,46 +35,32 @@ void loop() {
 
                 switch (incomingByte){
                     case 'u': //up
-                        tiltServo.write(89);
+                        tiltMotor->step(5, FORWARD, INTERLEAVE);
                         break;
                     case '1': //up fast
-                        tiltServo.write(88);
+                        tiltMotor->step(5, FORWARD, DOUBLE);
                         break;
 
                     case 'd': //down
-                        tiltServo.write(91);
+                        tiltMotor->step(5, BACKWARD, INTERLEAVE);
                         break;
                     case '2': //down fast
-                        tiltServo.write(94);
+                        tiltMotor->step(5, BACKWARD, DOUBLE);
                         break;
 
                     case 'l': //left
-                        turnServo.write(85);
+                        turnMotor->step(5, BACKWARD, INTERLEAVE);
                         break;
                     case '3': //left fast
-                        turnServo.write(83);
+                        turnMotor->step(5, BACKWARD, DOUBLE);
                         break;
 
                     case 'r': //right
-                        turnServo.write(96);
+                        turnMotor->step(5, FORWARD, INTERLEAVE);
                         break;
                     case '4': //right fast
-                        turnServo.write(97);
+                        turnMotor->step(5, FORWARD, DOUBLE);
                         break;
-
-                    case 's': //stop
-                        Stop();
-                        break;
-                    default:
-                        Stop();
-                        break;
-
-                }
-                
+                }               
         }
-}
-
-void Stop(){
-    turnServo.write(90);
-    tiltServo.write(90);
 }

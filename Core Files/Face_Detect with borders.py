@@ -64,10 +64,6 @@ def check_within(imgSize, baseMultiplier, secondMultiplier, currentX, currentY, 
             Servo.left(Low)
         return (0, 0, 255)
 
-    else:
-        Servo.stop()
-        return(0, 255, 0)
-
 cap = cv2.VideoCapture(1, cv2.IMREAD_GRAYSCALE) # instead of grayscale you can also use -1, 0, or 1.
 faceCascade = cv2.CascadeClassifier(r"C:\Users\nicho\OneDrive\Documents\GitHub\Face-Tracking-Camera\Cascades\haarcascade_frontalface_default.xml") # CHECK THIS FIRST TROUBLE SHOOTING
 
@@ -89,9 +85,6 @@ while(True):
     minNeighbors=5,
     minSize=(30, 30)
     )
-
-    if len(faces) == 0:
-        Servo.stop()
 
     print("Found {0} faces!".format(len(faces)))
 
