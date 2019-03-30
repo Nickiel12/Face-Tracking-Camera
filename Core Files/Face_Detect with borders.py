@@ -8,9 +8,9 @@ logging.basicConfig(level=logging.DEBUG, format= '%(asctime)s - %(levelname)s - 
 Low = arduino.LOW # Just a consitency check
 High = arduino.HIGH
 
-ComPort = 'COM10' # Change this accordingly to your arduino's COM port
+ComPort = 'COM5' # Change this accordingly to your arduino's COM port
 
-Servo = arduino.Controller('COM10', BaudRate= 9600).Servo() # Begin an instance of the servo controller
+Servo = arduino.Controller(ComPort, BaudRate= 9600).Servo() # Begin an instance of the servo controller
 
 def check_within(imgSize, baseMultiplier, secondMultiplier, currentX, currentY, currentW, currentH): # The code that determines if the face is within the borders
     

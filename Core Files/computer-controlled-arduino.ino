@@ -20,8 +20,8 @@ void setup() {
   AFMS.begin();  // create with the default frequency 1.6KHz
   //AFMS.begin(1000);  // OR with a different frequency, say 1KHz
   
-  tiltMotor->setSpeed(15);  // 10 rpm   
-  turnMotor->setSpeed(15);
+  tiltMotor->setSpeed(20);  // 10 rpm   
+  turnMotor->setSpeed(20);
 }
 
 void loop() {
@@ -35,31 +35,31 @@ void loop() {
 
                 switch (incomingByte){
                     case 'u': //up
-                        tiltMotor->step(5, FORWARD, INTERLEAVE);
+                        tiltMotor->step(1.5, FORWARD, INTERLEAVE);
                         break;
                     case '1': //up fast
-                        tiltMotor->step(5, FORWARD, DOUBLE);
+                        tiltMotor->step(2, FORWARD, SINGLE);
                         break;
 
                     case 'd': //down
-                        tiltMotor->step(5, BACKWARD, INTERLEAVE);
+                        tiltMotor->step(2, BACKWARD, INTERLEAVE);
                         break;
                     case '2': //down fast
-                        tiltMotor->step(5, BACKWARD, DOUBLE);
+                        tiltMotor->step(2, BACKWARD, SINGLE);
                         break;
 
                     case 'l': //left
-                        turnMotor->step(5, BACKWARD, INTERLEAVE);
+                        turnMotor->step(1, FORWARD, INTERLEAVE);
                         break;
                     case '3': //left fast
-                        turnMotor->step(5, BACKWARD, DOUBLE);
+                        turnMotor->step(2, FORWARD, SINGLE);
                         break;
 
                     case 'r': //right
-                        turnMotor->step(5, FORWARD, INTERLEAVE);
+                        turnMotor->step(1, BACKWARD, INTERLEAVE);
                         break;
                     case '4': //right fast
-                        turnMotor->step(5, FORWARD, DOUBLE);
+                        turnMotor->step(2, BACKWARD, SINGLE);
                         break;
                 }               
         }
