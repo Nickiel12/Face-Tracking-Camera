@@ -111,24 +111,25 @@ while done==False:
             axis = joystick.get_axis(i)
 
             if i == 1:
-                if axis > .250 and axis < .5:
-                    arduino.up(l1)
-                    print ('Axis one moving')
-                elif axis > .5 and axis < .75:
-                    arduino.up(l2)
-                elif axis > .75 and axis < .98:
-                    arduino.up(l3)
-                elif axis > .98:
-                    arduino.up(l4)
+                #if axis > .250 and axis < .5:
+                if axis > .1:
+                    arduino.up(axis)
+                #    print ('Axis one moving')
+                #elif axis > .5 and axis < .75:
+                #    arduino.up(l2)
+                #elif axis > .75 and axis < .98:
+                #    arduino.up(l3)
+                #elif axis > .98:
+                #    arduino.up(l4)
 
-                elif axis < -.250 and axis > -.5:
-                    arduino.down(l1)
-                elif axis < -.5 and axis > -.75:
-                    arduino.down(l2)
-                elif axis < -.75 and axis > -.98:
-                    arduino.down(l3)
-                elif axis < -.98:
-                    arduino.down(l4)
+                #elif axis < -.250 and axis > -.5:
+                #    arduino.down(l1)
+                #elif axis < -.5 and axis > -.75:
+                #    arduino.down(l2)
+                #elif axis < -.75 and axis > -.98:
+                #    arduino.down(l3)
+                #elif axis < -.98:
+                #    arduino.down(l4)
 
             if i == 0:
                 if .5 > axis > .25:

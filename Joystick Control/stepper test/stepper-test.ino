@@ -9,8 +9,6 @@ Adafruit_MotorShield AFMStop = Adafruit_MotorShield();
 Adafruit_StepperMotor *myStepper1 = AFMStop.getStepper(200, 1);
 Adafruit_StepperMotor *myStepper2 = AFMStop.getStepper(200, 2);
 
-float f;
-
 // you can change these to DOUBLE or INTERLEAVE or MICROSTEP!
 // wrappers for the first motor!
   void forwardstep1() {  
@@ -53,11 +51,13 @@ void loop()
         // send data only when you receive data:
     while(Serial.available() > 0) {
         // read the incoming byte:
-        f = Serial.parseFloat();
+        int f = Serial.parseInt();
+
+        Serial.print(f)
 
         if (f != 0){
-            
-            stepper2.moveTo(f);
+            stepper2.setAcceleration(f);
+            stepper2.moveTo(stepper1.currentPosition() + 5);
         }
 
     stepper1.run();
