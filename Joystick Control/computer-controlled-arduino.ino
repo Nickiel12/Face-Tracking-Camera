@@ -1,5 +1,6 @@
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
+#include <AccelStepper.h>
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
@@ -8,24 +9,31 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 
 // Connect a stepper motor with 200 steps per revolution (1.8 degree)
 // to motor port #2 (M3 and M4)
-Adafruit_StepperMotor *joystickMotorTilt = AFMS.getStepper(200, 2);
+Adafruit_StepperMotor *joystickMotorTiltLv2 = AFMS.getStepper(200, 2);
+Adafruit_StepperMotor *joystickMotorTiltLv3 = AFMS.getStepper(200, 2);
+Adafruit_StepperMotor *joystickMotorTiltLv4 = AFMS.getStepper(200, 2);
 
 //Same as above, except for assigned to motor port #1, (M1 and M2)
-
-Adafruit_StepperMotor *joystickMotorTurn = AFMS.getStepper(200, 1);
+Adafruit_StepperMotor *joystickMotorTurnLv2 = AFMS.getStepper(200, 1);
+Adafruit_StepperMotor *joystickMotorTurnLv3 = AFMS.getStepper(200, 1);
+Adafruit_StepperMotor *joystickMotorTurnLv4 = AFMS.getStepper(200, 1);
 
 
 
 void setup() {
-  Serial.begin(9600);           // set up Serial library at 9600 bps
+    Serial.begin(9600);           // set up Serial library at 9600 bps
 
-  joystickControl = false;
+    AFMS.begin();  // create with the default frequency 1.6KHz
+    //AFMS.begin(1000);  // OR with a different frequency, say 1KHz
 
-  AFMS.begin();  // create with the default frequency 1.6KHz
-  //AFMS.begin(1000);  // OR with a different frequency, say 1KHz
+    joystickMotorTiltLv2->setSpeed(40);
+    joystickMotorTurnLv2->setSpeed(40);
 
-  joystickMotorTilt->setSpeed(20);
-  joystickMotorTurn->setSpeed(20);
+    joystickMotorTiltLv3->setSpeed(60);
+    joystickMotorTurnLv3->setSpeed(60);
+
+    joystickMotorTiltLv4->setSpeed(80);
+    joystickMotorTurnLv4->setSpeed(80);
 }
 
 void loop() {
@@ -37,47 +45,44 @@ void loop() {
 
         switch (incomingByte)
         {
-            case '1': //level one Speed tilt
-                joystickMotorTilt->setSpeed(20);
+            case 'b': //L2 up
+                joystickMotorTiltLv2->step(1, FORWARD, MICROSTEP);
                 break;
-            case '2': //level one speed turn
-                joystickMotorTurn->setSpeed(20);
+            case 'c': //L3 up
+                joystickMotorTiltLv3->step(1, FORWARD, MICROSTEP);
                 break;
-            case '3': //level two speed tilt
-                joystickMotorTilt->setSpeed(40);
-                break;
-            case '4': //level two speed turn
-                joystickMotorTurn->setSpeed(40);
-                break;
-            case '5': //level three speed tilt
-                joystickMotorTilt->setSpeed(60);
-                break;
-            case '6': //level three speed turn
-                joystickMotorTurn->setSpeed(60);
-                break;
-            case '7': //level four speed tilt
-                joystickMotorTilt->setSpeed(80);
-                break;
-            case '8': //level four speed turn
-                joystickMotorTurn->setSpeed(80);
+            case 'd': //L4 up
+                joystickMotorTiltLv4->step(1, FORWARD, MICROSTEP);
                 break;
 
-            case 'u': //up
-                joystickMotorTilt->step(1, FORWARD, MICROSTEP);
+            case 'f': //L2 down
+                joystickMotorTiltLv2->step(1, BACKWARD, MICROSTEP);
+                break;
+            case 'g': //L3 down
+                joystickMotorTiltLv3->step(1, BACKWARD, MICROSTEP);
+                break;
+            case 'h': //L4 down
+                joystickMotorTiltLv4->step(1, BACKWARD, MICROSTEP);
                 break;
 
-            case 'd': //down
-                joystickMotorTilt->step(1, BACKWARD, MICROSTEP);
+            case '2': //L2 right
+                joystickMotorTurnLv2->step(1, FORWARD, MICROSTEP);
                 break;
-
-            case 'l': //left
-                joystickMotorTurn->step(1, FORWARD, MICROSTEP);
+            case '3': //L3 right
+                joystickMotorTurnLv3->step(1, FORWARD, MICROSTEP);
                 break;
-            
-            case 'r': //right
-                joystickMotorTurn->step(1, FORWARD, MICROSTEP);
+            case '4': //L4 right
+                joystickMotorTurnLv4->step(1, FORWARD, MICROSTEP);
                 break;
-            
+            case '6': //L2 left
+                joystickMotorTurnLv2->step(1, BACKWARD, MICROSTEP);
+                break;
+            case '7': //L3 left
+                joystickMotorTurnLv3->step(1, BACKWARD, MICROSTEP);
+                break;
+            case '8': //L4 left
+                joystickMotorTurnLv4->step(1, BACKWARD, MICROSTEP);
+                break;
         }       
     }
 }

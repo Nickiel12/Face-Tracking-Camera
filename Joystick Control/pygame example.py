@@ -1,8 +1,18 @@
 import pygame
-import arduino
+import arduino as ardModule
+import test
 
-arduino = arduino.Controller('COM5').Servo()
+arduino = test.Controller('COM5').Servo()
 
+#arduino = ardModule.Controller('COM5').Servo()
+
+LOW = ardModule.LOW
+HIGH = ardModule.HIGH
+
+l1 = '1'
+l2 = '2'
+l3 = '3'
+l4 = '4'
 
 # Define some colors
 BLACK    = (   0,   0,   0)
@@ -98,28 +108,48 @@ while done==False:
         textPrint.indent()
 
         for i in range( axes ):
-            axis = joystick.get_axis( i )
+            axis = joystick.get_axis(i)
+
             if i == 1:
-                if axis > .250:
-                    arduino.up("LOW")
+                if axis > .250 and axis < .5:
+                    arduino.up(l1)
                     print ('Axis one moving')
-                elif axis > .75:
-                    arduino.up("HIGH")
-                elif axis < -.250:
-                    arduino.down("LOW")
-                elif axis < -.750:
-                    arduino.down("HIGH")
-                elif axis > -.250 and axis < .250:
-                    arduino.stop()
+                elif axis > .5 and axis < .75:
+                    arduino.up(l2)
+                elif axis > .75 and axis < .98:
+                    arduino.up(l3)
+                elif axis > .98:
+                    arduino.up(l4)
+
+                elif axis < -.250 and axis > -.5:
+                    arduino.down(l1)
+                elif axis < -.5 and axis > -.75:
+                    arduino.down(l2)
+                elif axis < -.75 and axis > -.98:
+                    arduino.down(l3)
+                elif axis < -.98:
+                    arduino.down(l4)
+
             if i == 0:
-                if axis > .250:
-                    arduino.left('LOW')
-                elif axis > .750:
-                    arduino.left('HIGH')
-                elif axis < -.250:
-                    arduino.right('LOW')
-                elif axis < -.750:
-                    arduino.right("HIGH")
+                if .5 > axis > .25:
+                    arduino.right(l1)
+                    print ('Axis one moving')
+                elif .75 > axis > .5 :
+                    arduino.right(l2)
+                elif .98 > axis > .75:
+                    arduino.right(l3)
+                elif axis > .98:
+                    arduino.right(l4)
+
+                elif axis < -.250 and axis > -.5:
+                    arduino.left(l1)
+                elif axis < -.5 and axis > -.75:
+                    arduino.left(l2)
+                elif axis < -.75 and axis > -.98:
+                    arduino.left(l3)
+                elif axis < -.98:
+                    arduino.left(l4)
+
             textPrint.print(screen, "Axis {} value: {:>6.3f}".format(i, axis) )
         textPrint.unindent()
             

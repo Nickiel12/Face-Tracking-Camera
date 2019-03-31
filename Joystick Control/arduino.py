@@ -12,21 +12,26 @@ class Controller():
         Controller.arduino = serial.Serial(COMPort, BaudRate)
 
     class Servo():
-        
-        upStr = bytes('u', 'utf8')
-        downStr = bytes('d', 'utf-8')
-        leftStr = bytes('l', 'utf-8')
-        rightStr = bytes('r', 'utf-8')
 
-        L1Tilt = bytes('1', 'utf-8')
-        L2Tilt = bytes('3', 'utf-8')
-        L3Tilt = bytes('5', 'utf-8')
-        L4Tilt = bytes('7', 'utf-8')
+        L1TiltUp = bytes('a', 'utf-8')
+        L2TiltUp = bytes('b', 'utf-8')
+        L3TiltUp = bytes('c', 'utf-8')
+        L4TiltUp = bytes('d', 'utf-8')
 
-        L1Turn = bytes('2', 'utf-8')
-        L2Turn = bytes('4', 'utf-8')
-        L3Turn = bytes('6', 'utf-8')
-        L4Turn = bytes('8', 'utf-8')
+        L1TiltDwn = bytes('e', 'utf-8')
+        L2TiltDwn = bytes('f', 'utf-8')
+        L3TiltDwn = bytes('g', 'utf-8')
+        L4TiltDwn = bytes('h', 'utf-8')
+
+        L1TurnRht = bytes('1', 'utf-8')
+        L2TurnRht = bytes('2', 'utf-8')
+        L3TurnRht = bytes('3', 'utf-8')
+        L4TurnRht = bytes('4', 'utf-8')
+
+        L1TurnLft = bytes('5', 'utf-8')
+        L2TurnLft = bytes('6', 'utf-8')
+        L3TurnLft = bytes('7', 'utf-8')
+        L4TurnLft = bytes('8', 'utf-8')
         
 
         def __init__(self):
@@ -35,67 +40,51 @@ class Controller():
         def up(self, level):
             assert type(level) == str, 'Not a string'
             if level == '1':
-                self.arduino.write(self.L1Tilt)
-                self.arduino.write(self.upStr)
+                self.arduino.write(self.L1TiltUp)
             elif level == '2':
-                self.arduino.write(self.L2Tilt)
-                self.arduino.write(self.upStr)
+                self.arduino.write(self.L2TiltUp)
             elif level == '3':
-                self.arduino.write(self.L3Tilt)
-                self.arduino.write(self.upStr)
+                self.arduino.write(self.L3TiltUp)
             elif level == '4':
-                self.arduino.write(self.L4Tilt)
-                self.arduino.write(self.upStr)
+                self.arduino.write(self.L4TiltUp)
             else:
                 assert True == False, 'Unknown Level'
 
         def down(self, level):
             assert type(level) == str, 'Not a string'
             if level == '1':
-                self.arduino.write(self.L1Tilt)
-                self.arduino.write(self.downStr)
+                self.arduino.write(self.L1TiltDwn)
             elif level == '2':
-                self.arduino.write(self.L2Tilt)
-                self.arduino.write(self.downStr)
+                self.arduino.write(self.L2TiltDwn)
             elif level == '3':
-                self.arduino.write(self.L3Tilt)
-                self.arduino.write(self.downStr)
+                self.arduino.write(self.L3TiltDwn)
             elif level == '4':
-                self.arduino.write(self.L4Tilt)
-                self.arduino.write(self.downStr)
+                self.arduino.write(self.L4TiltDwn)
             else:
                 assert True == False, 'Unknown Level'
 
         def right(self, level):
             assert type(level) == str, 'Not a string'
             if level == '1':
-                self.arduino.write(self.L1Turn)
-                self.arduino.write(self.rightStr)
+                self.arduino.write(self.L1TurnRht)
             elif level == '2':
-                self.arduino.write(self.L2Turn)
-                self.arduino.write(self.rightStr)
+                self.arduino.write(self.L2TurnRht)
             elif level == '3':
-                self.arduino.write(self.L3Turn)
-                self.arduino.write(self.rightStr)
+                self.arduino.write(self.L3TurnRht)
             elif level == '4':
-                self.arduino.write(self.L4Turn)
-                self.arduino.write(self.rightStr)
+                self.arduino.write(self.L4TurnRht)
             else:
                 assert True == False, 'Unknown Level'
 
         def left(self, level):
             assert type(level) == str, 'Not a string'
             if level == '1':
-                self.arduino.write(self.L1Turn)
-                self.arduino.write(self.leftStr)
+                self.arduino.write(self.L1TurnLft)
             elif level == '2':
-                self.arduino.write(self.L2Turn)
-                self.arduino.write(self.leftStr)
+                self.arduino.write(self.L2TurnLft)
             elif level == '3':
-                self.arduino.write(self.L3Turn)
-                self.arduino.write(self.leftStr)
+                self.arduino.write(self.L3TurnLft)
             elif level == '4':
-                self.arduino.write(self.L4Turn)
-                self.arduino.write(self.leftStr)
+                self.arduino.write(self.L4TurnLft)
             else:
                 assert True == False, 'Unknown Level'
