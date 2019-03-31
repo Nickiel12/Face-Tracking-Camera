@@ -49,14 +49,14 @@ void loop() {
                         break;
 
                     case 'l': //left
-                        turnMotor->step(1, FORWARD, INTERLEAVE);
+                        turnMotor->step(2, FORWARD, INTERLEAVE);
                         break;
                     case '3': //left fast
                         turnMotor->step(2, FORWARD, SINGLE);
                         break;
 
                     case 'r': //right
-                        turnMotor->step(1, BACKWARD, INTERLEAVE);
+                        turnMotor->step(1.5, BACKWARD, INTERLEAVE);
                         break;
                     case '4': //right fast
                         turnMotor->step(2, BACKWARD, SINGLE);

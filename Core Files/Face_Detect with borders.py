@@ -66,6 +66,7 @@ def check_within(imgSize, baseMultiplier, secondMultiplier, currentX, currentY, 
 
 cap = cv2.VideoCapture(1, cv2.IMREAD_GRAYSCALE) # instead of grayscale you can also use -1, 0, or 1.
 faceCascade = cv2.CascadeClassifier(r"C:\Users\nicho\OneDrive\Documents\GitHub\Face-Tracking-Camera\Cascades\haarcascade_frontalface_default.xml") # CHECK THIS FIRST TROUBLE SHOOTING
+faceCascadeAlt = cv2.CascadeClassifier(r'C:\Users\nicho\OneDrive\Documents\GitHub\Face-Tracking-Camera\Cascades\haarcascade_profileface.xml')
 
 assert type(cap) != None, 'No Camera'
 tmp, frm = cap.read()
@@ -82,9 +83,17 @@ while(True):
     faces = faceCascade.detectMultiScale(
     gray,
     scaleFactor=1.1,
-    minNeighbors=5,
-    minSize=(30, 30)
+    minNeighbors=4,
+    minSize=(50, 50)
     )
+
+    if len(faces) == 0:
+        faces = faceCascadeAlt.detectMultiScale(
+            gray,
+            scaleFactor = 1.1,
+            minNeighbors = 4,
+            minSize=(50,50)
+        )
 
     print("Found {0} faces!".format(len(faces)))
 
