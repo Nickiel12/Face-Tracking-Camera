@@ -1,5 +1,6 @@
 import serial
 import struct
+from commandDict import commandDict
 
 LOW = "LOW"
 HIGH = 'HIGH'
@@ -33,29 +34,26 @@ class Controller():
 
             vertAxis = axes[vertAxisIndex] #get vertical axis curently
             horAxis = axes[horAxisIndex] # get horizontal axis currently 
-            
-            vertDir = self.get_positivity(vertAxis) #Test to see if vert axis is positive or negative. return 1 if positive, return 0 if negative
-
-            horDir = self.get_positivity(horAxis) 
-
-            vertSpeed = int(round(vertAxis, 3)*15) #Convert the axis to speed for arduino
-            horSpeed = int(round(horAxis, 3)*15)
 
 
-            self.write_to_arduino(vertSpeed, vertDir, horSpeed, horDir)
+            vertSpeed = int(round(vertAxis, 3)*10) #Convert the axis to speed for arduino
+            horSpeed = int(round(horAxis, 3)*10)
 
-        def write_to_arduino(self, vertSpeed, vertDir, horSpeed, horDir):
+
+            self.write_to_arduino(vertSpeed, horSpeed)
+
+        def write_to_arduino(self, vertSpeed, horSpeed):
             #template [verticalSpeed, upOrDown(1 or 0), horizontalSpeed, leftOrRight(1 or 0)]
-            outputList = [vertSpeed, vertDir, horSpeed, horDir]
-            outputBytes = bytearray()
+            outputList = [vertSpeed, horSpeed]
+            outputBytes = []
             print(outputList)
 
-            if outputList == [0,0,0,0]:
+            if outputList == [0,0]:
                 return
 
             for i in outputList:
-                print(type(i))
-                print(i)
+                if i == 10:
+                    outputBytes.append(struct.pack('>b', 9))
                 outputBytes.append(struct.pack('>b', i))
 
             print(outputList)
@@ -63,22 +61,4 @@ class Controller():
             for i in outputBytes:
                 self.arduino.write(i)
             self.arduino.write('\n'.encode('utf-8'))
-            print(self.arduino.read())
-
-
-    class Servo():
-
-        def __init__(self):
-            self.arduino = Controller.arduino
-
-
-        def up(self, rate):
-            print(rate)
-            rate = int(round(rate, 3)*15)
-            print(rate)
-            if rate == 10:
-                rate = 9
-            rateSend = struct.pack('>BB', rate)
-            print(rateSend)
-            self.arduino.write(rateSend)
             print(self.arduino.read())

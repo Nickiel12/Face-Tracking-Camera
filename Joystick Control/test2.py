@@ -1,3 +1,8 @@
 import struct
 
-print(struct.pack('>b', 0))
+packed = struct.pack('>b', 0)
+print(packed)
+arr = []
+print(arr)
+arr.append(struct.pack('>b', 0))
+print(arr)

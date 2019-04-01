@@ -53,51 +53,22 @@ void loop()
         // send data only when you receive data:
     while(Serial.available() > 3) {
         // read the incoming byte:
-        byte axes[4];
+        char axes[2];
 
-        Serial.readBytesUntil('\n', axes, 4);
+        Serial.readBytesUntil('\n', axes, 2);
 
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 2; i++){
           Serial.print(axes[i]);
         }
 
-        if (axes[0] != 0 || axes[2] != 0){
-			if (axes[0] != 0) {
-
-				if (axes[1] == 1) {
-					vertUp = true;
-				}else{
-					vertUp = false;
-				}
-
-				if (vertUp == true){
-					stepperTilt.moveTo(stepperTilt.currentPosition()+50);
-					stepperTilt.setMaxSpeed(axes[0]);
-				}else {
-					stepperTilt.setMaxSpeed(axes[0] * -1);
-					stepperTilt.moveTo(stepperTilt.currentPosition()+50);
-				}
+		if (axes[0] != 0){
+			switch(axes[0]){
+				case 
 			}
+		}
+		if(axes[1] != 0){
 
-			if (axes[2] != 0) {
-				if (axes[3] == 1){
-					horRight = true;
-				}else {
-					horRight = false;
-				}
-			}
-
-			if (horRight == true) {
-				stepperTurn.moveTo(stepperTurn.currentPosition()+50);
-				stepperTurn.setMaxSpeed(axes[2]);
-			}else {
-				stepperTurn.moveTo(stepperTurn.currentPosition()+50);
-				stepperTurn.setMaxSpeed(axes[2] * -1);
-			}
-        }
-
-    axes[0] = 0;
-	axes[2] = 0;
+		}
 
     stepperTurn.run();
     stepperTilt.run();

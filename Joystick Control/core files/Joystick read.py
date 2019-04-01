@@ -93,7 +93,7 @@ while done==False:
         textPrint.print(screen, "Number of axes: {}".format(axes) )
         textPrint.indent()
 
-        parseAxes = [joystick.get_axis(0), joystick.get_axis(1)]
+        parseAxes = [joystick.get_axis(1), joystick.get_axis(0)]
 
         arduino.update_axes(parseAxes, 0, 1)
         for i in range( axes ):
