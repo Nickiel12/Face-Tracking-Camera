@@ -1,11 +1,4 @@
 import pygame
-import arduino as ardModule
-import test
-
-arduino = test.Controller('COM5').Stepper()
-
-#arduino = ardModule.Controller('COM5').Servo()
-
 
 # Define some colors
 BLACK    = (   0,   0,   0)
@@ -62,6 +55,13 @@ while done==False:
     for event in pygame.event.get(): # User did something
         if event.type == pygame.QUIT: # If user clicked close
             done=True # Flag that we are done so we exit this loop
+        
+        # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
+        if event.type == pygame.JOYBUTTONDOWN:
+            print("Joystick button pressed.")
+        if event.type == pygame.JOYBUTTONUP:
+            print("Joystick button released.")
+            
  
     # DRAWING STEP
     # First, clear the screen to white. Don't put other drawing commands
@@ -92,13 +92,9 @@ while done==False:
         axes = joystick.get_numaxes()
         textPrint.print(screen, "Number of axes: {}".format(axes) )
         textPrint.indent()
-
-        parseAxes = [joystick.get_axis(0), joystick.get_axis(1)]
-
-        arduino.update_axes(parseAxes, 0, 1)
+        
         for i in range( axes ):
-            axis = joystick.get_axis(i)
-
+            axis = joystick.get_axis( i )
             textPrint.print(screen, "Axis {} value: {:>6.3f}".format(i, axis) )
         textPrint.unindent()
             
