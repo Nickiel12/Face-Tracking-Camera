@@ -39,11 +39,8 @@ class Controller():
             horDir = self.get_positivity(horAxis) 
 
             vertSpeed = int(round(vertAxis, 3)*15) #Convert the axis to speed for arduino
-            if vertSpeed < 0:
-                vertSpeed *= -1
             horSpeed = int(round(horAxis, 3)*15)
-            if horSpeed < 0:
-                horSpeed *= -1
+
 
             self.write_to_arduino(vertSpeed, vertDir, horSpeed, horDir)
 
@@ -57,7 +54,9 @@ class Controller():
                 return
 
             for i in outputList:
-                outputBytes.append(struct.pack('>B', i))
+                print(type(i))
+                outputBytes.append(struct.pack('>b', i))
+
             print(outputList)
             print(outputBytes)
             for i in outputBytes:

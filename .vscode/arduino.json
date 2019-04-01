@@ -1,6 +1,7 @@
 {
-    "port": "COM5",
-    "board": "arduino:avr:uno",
+    "port": "COM10",
+    "board": "arduino:avr:nano",
     "output": "../build",
-    "sketch": "Joystick Control\\stepper test\\stepper-test.ino"
+    "sketch": "Core Files\\Servo system\\computer-controlled-arduino.ino",
+    "configuration": "cpu=atmega328"
 }
