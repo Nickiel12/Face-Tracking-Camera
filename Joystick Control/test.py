@@ -55,6 +55,7 @@ class Controller():
 
             for i in outputList:
                 print(type(i))
+                print(i)
                 outputBytes.append(struct.pack('>b', i))
 
             print(outputList)
