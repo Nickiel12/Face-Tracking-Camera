@@ -232,10 +232,8 @@ void loop()
                     break;
             }
         }
-		}
-		if(axes[1] != 0){
+	}
 
-		}
 
     axes[0] = 0;
     axes[1] = 0;
