@@ -1,6 +1,6 @@
 import serial
 import struct
-from commandDict import commandDict
+from commandDict import commandDictLower, commandDictUpper
 
 LOW = "LOW"
 HIGH = 'HIGH'
@@ -36,8 +36,8 @@ class Controller():
             horAxis = axes[horAxisIndex] # get horizontal axis currently 
 
 
-            vertSpeed = int(round(vertAxis, 3)*10) #Convert the axis to speed for arduino
-            horSpeed = int(round(horAxis, 3)*10)
+            vertSpeed = int(round((vertAxis*10), 2)) #Convert the axis to speed for arduino
+            horSpeed = int(round((horAxis*10), 2))
 
 
             self.write_to_arduino(vertSpeed, horSpeed)
@@ -48,16 +48,15 @@ class Controller():
             outputBytes = []
             print(outputList)
 
-            if outputList == [0,0]:
-                return
-
-            for i in outputList:
-                if i == 10:
-                    outputBytes.append(struct.pack('>b', 9))
-                outputBytes.append(struct.pack('>b', i))
-
-            print(outputList)
-            print(outputBytes)
+            if outputList[0] == 0:
+                outputBytes.append(struct.pack('>B', 0))
+            else:
+                outputBytes.append(commandDictLower[outputList[0]])
+            if outputList[1] == 0:
+                outputBytes.append(struct.pack('>B', 0))
+            else:
+                outputBytes.append(commandDictUpper[outputList[1]])
+            
             for i in outputBytes:
                 self.arduino.write(i)
             self.arduino.write('\n'.encode('utf-8'))

@@ -29,8 +29,6 @@ void backwardstep2() {
 AccelStepper stepperTurn(forwardstep1, backwardstep1);
 AccelStepper stepperTilt(forwardstep2, backwardstep2);
 
-bool vertUp, horRight;
-
 void setup()
 {  
 	AFMStop.begin(); // Start the top shield
@@ -63,12 +61,48 @@ void loop()
 
 		if (axes[0] != 0){
 			switch(axes[0]){
-				case 
+				case 'a': //level 1 up
+
+                    break;
+                case 'b': //level2 up
+
+                    break;
+                case 'c': //level3 up
+
+                    break;
+                case 'd': //level4 up
+
+                    break;
+                case 'e': //level5 up
+
+                    break;
+                case 'f': //level6 up
+
+                    break;
+                case 'g': //level 7 up
+
+                    break;
+                case 'h': //level 8 up
+
+                    break;
+                case 'i': //level 9 up
+
+                    break;
+                case 'j': //level 10 up
+
+                    break;
+                
+                case 'k': //level 1 down
+
+                    break;
 			}
 		}
 		if(axes[1] != 0){
 
 		}
+
+    axes[0] = 0;
+    axes[1] = 0;
 
     stepperTurn.run();
     stepperTilt.run();

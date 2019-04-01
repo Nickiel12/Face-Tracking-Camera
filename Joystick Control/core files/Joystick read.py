@@ -1,5 +1,4 @@
 import pygame
-import arduino as ardModule
 import test
 
 arduino = test.Controller('COM5').Stepper()
