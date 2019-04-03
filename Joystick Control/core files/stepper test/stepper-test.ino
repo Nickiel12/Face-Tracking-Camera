@@ -2,58 +2,73 @@
 #include <AccelStepper.h>
 #include <Adafruit_MotorShield.h>
 
-Adafruit_MotorShield AFMStop = Adafruit_MotorShield();
+Adafruit_MotorShield AFMStop = Adafruit_MotorShield(); //Initialize the motor shield
 
 // Connect two steppers with 200 steps per revolution (1.8 degree)
-// to the top shield
-Adafruit_StepperMotor *myStepper1 = AFMStop.getStepper(200, 1);
-Adafruit_StepperMotor *myStepper2 = AFMStop.getStepper(200, 2);
+// to the shield
+Adafruit_StepperMotor *myStepperTurn = AFMStop.getStepper(200, 1); //Attach a stepper motor to motor mount 1, M1 & M2
+Adafruit_StepperMotor *myStepperTilt = AFMStop.getStepper(200, 2); //Attach a second stepper motor to motor mount 2, M3 & M4
 
-// you can change these to DOUBLE or INTERLEAVE or MICROSTEP!
+// you can change these to SINGLE or DOUBLE or INTERLEAVE or MICROSTEP!
+//MICROSTEP sets the motor to move in 1/16 steps
+//INTERLEAVE sets the motor to move in 1/2 steps
+//SINGLE sets the motors to move in 1 steps
+//DOUBLE sets the motors to move in 2 steps
+
 // wrappers for the first motor!
-void forwardstep1() {  
-    myStepper1->onestep(FORWARD, INTERLEAVE);
+void forwardstepTurn() {  
+    myStepperTurn->onestep(FORWARD, INTERLEAVE);
 }
-void backwardstep1() {  
-    myStepper1->onestep(BACKWARD, INTERLEAVE);
+void backwardStepTurn() {  
+    myStepperTurn->onestep(BACKWARD, INTERLEAVE);
 }
 // wrappers for the second motor!
-void forwardstep2() {  
-    myStepper2->onestep(FORWARD, SINGLE);
+void forwardStepTilt() {  
+    myStepperTilt->onestep(FORWARD, SINGLE);
 }
-void backwardstep2() {  
-    myStepper2->onestep(BACKWARD, SINGLE);
+void backwardStepTilt() {  
+    myStepperTilt->onestep(BACKWARD, SINGLE);
 }
-int MaxSpeedMulitplierTilt = 10;
-int MaxSpeedMulitplierTurn = 10;
 
-// Now we'll wrap the 3 steppers in an AccelStepper object
-AccelStepper stepperTurn(forwardstep1, backwardstep1);
-AccelStepper stepperTilt(forwardstep2, backwardstep2);
+int MaxSpeedMulitplierTilt = 10; //The base multiplier for the steppers speed
+int MaxSpeedMulitplierTurn = 10; //change these number to adjust how fast the motors turn
 
-void turn(bool right, int speed) {
-    stepperTurn.setMaxSpeed(speed * MaxSpeedMulitplierTurn);
-    if (right == true){
+// Now we'll wrap both steppers in an AccelStepper object
+AccelStepper stepperTurn(forwardstepTurn, backwardStepTurn);
+AccelStepper stepperTilt(forwardStepTilt, backwardStepTilt);
+
+void turn(bool right, int speed) { //A function that turns the stepperTurn
+
+    stepperTurn.setMaxSpeed(speed * MaxSpeedMulitplierTurn); //set the speed
+
+    if (right == true){ //If the boolean 'right' if true, turn stepperTurn to the right
         stepperTurn.moveTo(stepperTurn.currentPosition()+50);
-    }else{
+
+    }else { //If the boolean 'right' is false, turn stepperTurn motor to the left
         stepperTurn.moveTo(stepperTurn.currentPosition()-50);
     }
 }
 
-void tilt(bool down, int speed) {
-    stepperTilt.setMaxSpeed(speed * MaxSpeedMulitplierTilt);
-    if (down == true) {
+void tilt(bool down, int speed) { //A function that turns the stepperTilt motor
+
+    stepperTilt.setMaxSpeed(speed * MaxSpeedMulitplierTilt); //Sets the speed
+
+    if (down == true) { //If the boolean 'down' is true, tilt the motor down
         stepperTilt.moveTo(stepperTilt.currentPosition()+50);
-    }else {
+
+    }else { //If the boolean 'down' if false, tilt the motor up
         stepperTilt.moveTo(stepperTilt.currentPosition()-50);
     }
 }
 
 void stop(bool tilt) {
-    if (tilt == true) {
+    /*A function that stops the motor of choice
+    */
+    if (tilt == true) { //If the boolean 'tilt' is true, stop the stepperTilt motor
         stepperTilt.setMaxSpeed(0);
         stepperTilt.moveTo(stepperTilt.currentPosition());
-    }else {
+
+    }else { //If the boolean 'tilt' is false, stop the stepperTurn motor
         stepperTurn.setMaxSpeed(0);
         stepperTurn.moveTo(stepperTurn.currentPosition());
     }
@@ -63,25 +78,23 @@ void setup()
 {  
 	AFMStop.begin(); // Start the top shield
 
-	Serial.begin(19200);
-	Serial.setTimeout(1500);
+	Serial.begin(19200);  //Begin serial input
   
-	stepperTurn.setMaxSpeed(20.0);
+	stepperTurn.setMaxSpeed(0); //Begin motors
 	stepperTurn.setAcceleration(2000.0);
     
-    stepperTilt.setMaxSpeed(20.0);
+    stepperTilt.setMaxSpeed(0); //Begin motors
      stepperTilt.setAcceleration(2000.0);
 
 }
 
 void loop()
 {
-    // Change direction at the limits
-  
-        // send data only when you receive data:
+    if (Serial.available() == 0){
+        stop
+    }
     while(Serial.available() > 0) {
         // read the incoming byte:
-
         axes = Serial.read();
 
         switch(axes){
