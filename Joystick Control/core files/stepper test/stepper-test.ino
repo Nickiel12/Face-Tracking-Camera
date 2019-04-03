@@ -24,10 +24,40 @@ void forwardstep2() {
 void backwardstep2() {  
     myStepper2->onestep(BACKWARD, SINGLE);
 }
+int MaxSpeedMulitplierTilt = 10;
+int MaxSpeedMulitplierTurn = 10;
 
 // Now we'll wrap the 3 steppers in an AccelStepper object
 AccelStepper stepperTurn(forwardstep1, backwardstep1);
 AccelStepper stepperTilt(forwardstep2, backwardstep2);
+
+void turn(bool right, int speed) {
+    stepperTurn.setMaxSpeed(speed * MaxSpeedMulitplierTurn);
+    if (right == true){
+        stepperTurn.moveTo(stepperTurn.currentPosition()+50);
+    }else{
+        stepperTurn.moveTo(stepperTurn.currentPosition()-50);
+    }
+}
+
+void tilt(bool down, int speed) {
+    stepperTilt.setMaxSpeed(speed * MaxSpeedMulitplierTilt);
+    if (down == true) {
+        stepperTilt.moveTo(stepperTilt.currentPosition()+50);
+    }else {
+        stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+    }
+}
+
+void stop(bool tilt) {
+    if (tilt == true) {
+        stepperTilt.setMaxSpeed(0);
+        stepperTilt.moveTo(stepperTilt.currentPosition());
+    }else {
+        stepperTurn.setMaxSpeed(0);
+        stepperTurn.moveTo(stepperTurn.currentPosition());
+    }
+}
 
 void setup()
 {  
@@ -53,8 +83,6 @@ void loop()
         // read the incoming byte:
         char axes[2];
 
-        int MaxSpeedMulitplierTilt = 10;
-        int MaxSpeedMulitplierTurn = 10;
 
         Serial.readBytesUntil('\n', axes, 2);
 
@@ -65,170 +93,130 @@ void loop()
 		if (axes[0] != 0){
 			switch(axes[0]){
 				case 'a': //level 1 up
-                    stepperTilt.setMaxSpeed(1*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()+50);
+                    tilt(false,1);
                     break;
                 case 'b': //level2 up
-                    stepperTilt.setMaxSpeed(2*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()+50);
+                    tilt(false,2);
                     break;
                 case 'c': //level3 up
-                    stepperTilt.setMaxSpeed(3*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()+50);
+                    tilt(false,3);
                     break;
                 case 'd': //level4 up
-                    stepperTilt.setMaxSpeed(4*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()+50);
+                    tilt(false,4);
                     break;
                 case 'e': //level5 up
-                    stepperTilt.setMaxSpeed(5*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()+50);
+                    tilt(false,5);
                     break;
                 case 'f': //level6 up
-                    stepperTilt.setMaxSpeed(6*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()+50);
+                    tilt(false,6);
                     break;
                 case 'g': //level 7 up
-                    stepperTilt.setMaxSpeed(7*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()+50);
+                    tilt(false,7);
                     break;
                 case 'h': //level 8 up
-                    stepperTilt.setMaxSpeed(8*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()+50);
+                    tilt(false,8);
                     break;
                 case 'i': //level 9 up
-                    stepperTilt.setMaxSpeed(9*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()+50);
+                    tilt(false,9);
                     break;
                 case 'j': //level 10 up
-                    stepperTilt.setMaxSpeed(10*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()+50);
+                    tilt(false,10);
                     break;
                 
                 case 'k': //level 1 down
-                    stepperTilt.setMaxSpeed(1*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+                    tilt(true, 1);
                     break;
                 case 'l': //level 2 down
-                    stepperTilt.setMaxSpeed(2*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+                    tilt(true, 2);
                     break;
                 case 'm': //level 3 down
-                    stepperTilt.setMaxSpeed(3*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+                    tilt(true, 3);
                     break;
                 case 'n': //level 4 down
-                    stepperTilt.setMaxSpeed(4*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+                    tilt(true, 4);
                     break;
                 case 'o': //level 5 down
-                    stepperTilt.setMaxSpeed(5*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+                    tilt(true, 5);
                     break;
                 case 'p': //level 6 down
-                    stepperTilt.setMaxSpeed(6*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+                    tilt(true, 6);
                     break;
                 case 'q': //level 7 down
-                    stepperTilt.setMaxSpeed(7*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+                    tilt(true, 7);
                     break;
                 case 'r': //level 8 down
-                    stepperTilt.setMaxSpeed(8*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+                    tilt(true, 8);
                     break;
                 case 's': //level 9 down
-                    stepperTilt.setMaxSpeed(9*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+                    tilt(true, 9);
                     break;
                 case 't': //level 10 down
-                    stepperTilt.setMaxSpeed(10*MaxSpeedMulitplierTilt);
-                    stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+                    tilt(true, 10);
                     break;
                 }
 
         if (axis[1] != 0){
             switch(axis[1]){
                 case 'A': //level 1 right
-                    stepperTurn.setMaxSpeed(1*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()+50)
+                    turn(true, 1);
                     break;
                 case 'B': //level 2 right
-                    stepperTurn.setMaxSpeed(2*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()+50)
+                    turn(true, 2);
                     break;
                 case 'C': //level 3 right
-                    stepperTurn.setMaxSpeed(3*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()+50)
+                    turn(true, 3);
                     break;
                 case 'D': //level 4 right
-                    stepperTurn.setMaxSpeed(4*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()+50)
+                    turn(true, 4);
                     break;
                 case 'E': //level 5 right
-                    stepperTurn.setMaxSpeed(5*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()+50)
+                    turn(true, 5);
                     break;
                 case 'F': //level 6 right
-                    stepperTurn.setMaxSpeed(6*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()+50)
+                    turn(true, 6);
                     break;
-                case 'G': //level 7 right
-                    stepperTurn.setMaxSpeed(7*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()+50)
+                case 'G': //level 7 righ
+                    turn(true, 7);
                     break;
                 case 'H': //level 8 right
-                    stepperTurn.setMaxSpeed(8*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()+50)
+                    turn(true, 8);
                     break;
                 case 'I': //level 9 right
-                    stepperTurn.setMaxSpeed(9*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()+50)
+                    turn(true, 9);
                     break;
                 case 'J': //level 10 right
-                    stepperTurn.setMaxSpeed(10*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()+50)
+                    turn(true, 10);
                     break;
                 
                 case 'K': //level 1 left
-                    stepperTurn.setMaxSpeed(1*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()-50)
+                    turn(false, 1);
                     break;
                 case 'L': //level 2 left
-                    stepperTurn.setMaxSpeed(2*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()-50)
+                    turn(false, 2);
                     break;
                 case 'M': //level 3 left
-                    stepperTurn.setMaxSpeed(3*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()-50)
+                    turn(false, 3);
                     break;
                 case 'N': //level 4 left
-                    stepperTurn.setMaxSpeed(4*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()-50)
+                    turn(false, 4);
                     break;
                 case 'O': //level 5 left
-                    stepperTurn.setMaxSpeed(5*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()-50)
+                    turn(false, 5);
                     break;
                 case 'P': //level 6 left
-                    stepperTurn.setMaxSpeed(6*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()-50)
+                    turn(false, 6);
                     break;
                 case 'Q': //level 7 left
-                    stepperTurn.setMaxSpeed(7*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()-50)
+                    turn(false, 7);
                     break;
                 case 'R': //level 8 left 
-                    stepperTurn.setMaxSpeed(8*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()-50)
+                    turn(false, 8);
                     break;
                 case 'S': //level 9 left
-                    stepperTurn.setMaxSpeed(9*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()-50)
+                    turn(false, 9);
                     break;
                 case 'T': //level 10 left
-                    stepperTurn.setMaxSpeed(10*MaxSpeedMulitplierTurn);
-                    stepperTurn.moveTo(stepperTurn.currentPosition()-50)
+                    turn(false, 10);
                     break;
             }
         }

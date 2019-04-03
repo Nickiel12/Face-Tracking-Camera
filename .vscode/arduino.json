@@ -2,5 +2,5 @@
     "port": "COM5",
     "board": "arduino:avr:uno",
     "output": "../build",
-    "sketch": "Joystick Control\\stepper test\\stepper-test.ino"
+    "sketch": "Joystick Control\\core files\\stepper test\\stepper-test.ino"
 }
