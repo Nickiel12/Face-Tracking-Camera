@@ -1,6 +1,7 @@
 import serial
 import struct
 import pygame
+import threading
 import logging
 from commandDict import commandDictLower, commandDictUpper # import the arduino commands
 
@@ -17,10 +18,10 @@ class Joystick():
     """
     def __init__(self, StepperInstance, JoystickIndex):
         self.Stepper = StepperInstance
-        self.joystick_count = pygame.joystick.get_count()
+        self.joystick = pygame.joystick.Joystick(JoystickIndex)
+        self.joystick.init()
 
     def get_axes(self, joystick, horizontal_axis, vertical_axis, zoom_axis):
-        logging.debug(type(joystick))
         
         horiAxis = joystick.get_axis(horizontal_axis)
         vertAxis = joystick.get_axis(vertical_axis)
@@ -29,23 +30,20 @@ class Joystick():
 
     def begin_joystick(self, loop = True, horizontal_axis = 0, vertical_axis = 1, zoom_axis = 3):
 
-        for i in range(self.joystick_count):
-            joystick = pygame.joystick.Joystick(i)
-            joystick.init()
-            logging.debug(pygame.joystick.get_count())
-            
-            #for i in range( axes ):
-            #    axis = joystick.get_axis(i)
-            currentHorizontalAxis, currentVerticalAxis, currentZoomAxis = self.get_axes(joystick, horizontal_axis, vertical_axis, zoom_axis)
+        self.thread = threading.Thread(target = self.loop, args=(loop, horizontal_axis, vertical_axis, zoom_axis))
+        self.thread.start()
 
-            logging.debug(currentHorizontalAxis)
+    def loop(self, loop, horizontal_axis, vertical_axis, zoom_axis):
+        while loop == True:
+            pygame.event.get()
+
+            currentHorizontalAxis, currentVerticalAxis, currentZoomAxis = self.get_axes(self.joystick, horizontal_axis, vertical_axis, zoom_axis)
             
             self.Stepper.write_axes(currentVerticalAxis, currentHorizontalAxis)
 
-            if joystick.get_button(0) == 1:
+            if self.joystick.get_button(0) == 1:
                 loop = False
-            if loop == True:
-                self.begin_joystick(loop, horizontal_axis, vertical_axis, zoom_axis)
+
 
 class Controller():
     """
@@ -80,18 +78,17 @@ class Controller():
         def write_to_arduino(self, vertSpeed, horSpeed):
             outputBytes = []
             logging.debug(vertSpeed)
-            logging.debug('')
             logging.debug(horSpeed)
 
             if vertSpeed == 0:
-                outputBytes.append(struct.pack('>B', 0))
+                outputBytes.append('z'.encode('utf-8'))
             else:
                 outputBytes.append(commandDictLower[vertSpeed])
             if horSpeed == 0:
-                outputBytes.append(struct.pack('>B', 0))
+                outputBytes.append('Z'.encode('utf-8'))
             else:
                 outputBytes.append(commandDictUpper[horSpeed])
             
             for i in outputBytes:
                 self.arduino.write(i)
-            print(self.arduino.read())
+                logging.debug(i)

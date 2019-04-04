@@ -17,25 +17,39 @@ Adafruit_StepperMotor *myStepperTilt = AFMStop.getStepper(200, 2); //Attach a se
 
 // wrappers for the first motor!
 void forwardstepTurn() {  
-    myStepperTurn->onestep(FORWARD, INTERLEAVE);
+    myStepperTurn->onestep(FORWARD, MICROSTEP);
 }
 void backwardStepTurn() {  
-    myStepperTurn->onestep(BACKWARD, INTERLEAVE);
+    myStepperTurn->onestep(BACKWARD, MICROSTEP);
 }
 // wrappers for the second motor!
 void forwardStepTilt() {  
-    myStepperTilt->onestep(FORWARD, SINGLE);
+    myStepperTilt->onestep(FORWARD, MICROSTEP);
 }
 void backwardStepTilt() {  
-    myStepperTilt->onestep(BACKWARD, SINGLE);
+    myStepperTilt->onestep(BACKWARD, MICROSTEP);
 }
 
-int MaxSpeedMulitplierTilt = 10; //The base multiplier for the steppers speed
-int MaxSpeedMulitplierTurn = 10; //change these number to adjust how fast the motors turn
+int MaxSpeedMulitplierTilt = 2; //The base multiplier for the steppers speed
+int MaxSpeedMulitplierTurn = 2; //change these number to adjust how fast the motors turn
 
 // Now we'll wrap both steppers in an AccelStepper object
 AccelStepper stepperTurn(forwardstepTurn, backwardStepTurn);
 AccelStepper stepperTilt(forwardStepTilt, backwardStepTilt);
+
+void setup()
+{  
+	AFMStop.begin(); // Start the top shield
+
+	Serial.begin(19200);  //Begin serial input
+  
+	stepperTurn.setMaxSpeed(0); //Begin motors
+	stepperTurn.setAcceleration(2000.0);
+    
+    stepperTilt.setMaxSpeed(0); //Begin motors
+     stepperTilt.setAcceleration(2000.0);
+
+}
 
 void turn(bool right, int speed) { //A function that turns the stepperTurn
 
@@ -75,29 +89,16 @@ void stop(bool tilt) {
     }
 }
 
-void setup()
-{  
-	AFMStop.begin(); // Start the top shield
-
-	Serial.begin(19200);  //Begin serial input
-  
-	stepperTurn.setMaxSpeed(0); //Begin motors
-	stepperTurn.setAcceleration(2000.0);
-    
-    stepperTilt.setMaxSpeed(0); //Begin motors
-     stepperTilt.setAcceleration(2000.0);
-
-}
-
 void loop()
 {
-    if (Serial.available() == 0){
-        stop(true);
-        stop(false);
-    }
     while(Serial.available() > 0) {
         // read the incoming byte:
         char axes = Serial.read();
+        if (axes == 'z'){
+            stop(true);
+        } else if (axes == 'Z') {
+            stop(false);
+        }
 
         switch(axes){
             case 'a': //level 1 up
