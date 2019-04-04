@@ -97,7 +97,7 @@ void loop()
     }
     while(Serial.available() > 0) {
         // read the incoming byte:
-        axes = Serial.read();
+        char axes = Serial.read();
 
         switch(axes){
             case 'a': //level 1 up

@@ -3,6 +3,9 @@ import threading
 
 controller = test.Controller('COM5')
 stepper = controller.Stepper()
-joystick = controller.Joystick(stepper)
+joystick = test.Joystick(stepper, 0)
 
-threading._start_new_thread(joystick.begin_joystick)
+loop = True
+
+while loop == True:
+    joystick.get_axis(0, 1, 3)

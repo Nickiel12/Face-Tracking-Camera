@@ -94,6 +94,7 @@ while done==False:
         textPrint.indent()
         
         for i in range( axes ):
+            print(type(joystick))
             axis = joystick.get_axis( i )
             textPrint.print(screen, "Axis {} value: {:>6.3f}".format(i, axis) )
         textPrint.unindent()

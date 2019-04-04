@@ -1,9 +1,42 @@
 import serial
 import struct
 import pygame
+import logging
 from commandDict import commandDictLower, commandDictUpper # import the arduino commands
 
+logging.basicConfig(level=logging.DEBUG, format= '%(asctime)s - %(levelname)s - %(message)s')
 
+class Joystick():
+    """
+    A class that uses a joystick to control an arduino
+    'StepperInstance', takes an instance of Controller().Stepper()
+    """
+    def __init__(self, StepperInstance, JoystickIndex):
+        self.Stepper = StepperInstance
+        pygame.init()
+        self.PygameJoystick = pygame.joystick.Joystick(JoystickIndex)
+        self.PygameJoystick.init()
+
+    def get_axes(self, horizontal_axis, vertical_axis, zoom_axis):
+        logging.debug(self.PygameJoystick.get_axis(vertical_axis))
+        
+        horiAxis = self.PygameJoystick.get_axis(horizontal_axis)
+        vertAxis = self.PygameJoystick.get_axis(vertical_axis)
+        zoomAxis = self.PygameJoystick.get_axis(zoom_axis)
+        return (horiAxis, vertAxis, zoom_axis)
+
+    def begin_joystick(self, loop = True, horizontal_axis = 0, vertical_axis = 1, zoom_axis = 3):
+
+        currentHorizontalAxis, currentVerticalAxis, currentZoomAxis = self.get_axes(horizontal_axis, vertical_axis, zoom_axis)
+
+        logging.debug(currentHorizontalAxis)
+        
+        self.Stepper.write_axes(currentVerticalAxis, currentHorizontalAxis)
+
+        if self.PygameJoystick.get_button(0) == 1:
+            loop = False
+        if loop == True:
+            self.begin_joystick(loop, horizontal_axis, vertical_axis, zoom_axis)
 
 class Controller():
     """
@@ -17,24 +50,6 @@ class Controller():
 
         Controller.arduino = serial.Serial(COMPort, BaudRate, timeout=.1) #Open the serial port, and set it to a variable
                                                 #that is able to be accessed by the other classes
-
-    class Joystick():
-        def __init__(self, StepperInstance):
-            self.Stepper = StepperInstance
-            pygame.init()
-            self.PygameJoystick = pygame.joystick()
-            self.PygameJoystick.init()
-
-        def get_axes(self, horizontal_axis, vertical_axis, zoom_axis, joystickNum = 0):
-            axes = self.PygameJoystick.get_axes()
-            return axes[horizontal_axis], axes[vertical_axis], axes[zoom_axis]
-
-        def begin_joystick(self, loop = True, joystickNum = 0, horizontal_axis = 0, vertical_axis = 1, zoom_axis = 3):
-            currentHorizontalAxis, currentVerticalAxis, currentZoomAxis = self.get_axes(horizontal_axis, vertical_axis, zoom_axis)
-            
-            self.Stepper.write_axes(currentVerticalAxis, currentHorizontalAxis)
-            if loop == True:
-                self.begin_joystick(loop, joystickNum, horizontal_axis, vertical_axis, zoom_axis)
 
     class Stepper(): 
         """
@@ -54,18 +69,19 @@ class Controller():
             self.write_to_arduino(vertSpeed, horSpeed)
 
         def write_to_arduino(self, vertSpeed, horSpeed):
-            outputList = [vertSpeed, horSpeed]
             outputBytes = []
-            print(outputList)
+            logging.debug(vertSpeed)
+            logging.debug('')
+            logging.debug(horSpeed)
 
-            if outputList[0] == 0:
+            if vertSpeed == 0:
                 outputBytes.append(struct.pack('>B', 0))
             else:
-                outputBytes.append(commandDictLower[outputList[0]])
-            if outputList[1] == 0:
+                outputBytes.append(commandDictLower[vertSpeed])
+            if horSpeed == 0:
                 outputBytes.append(struct.pack('>B', 0))
             else:
-                outputBytes.append(commandDictUpper[outputList[1]])
+                outputBytes.append(commandDictUpper[horSpeed])
             
             for i in outputBytes:
                 self.arduino.write(i)
