@@ -68,38 +68,8 @@ while done==False:
     screen.fill(WHITE)
     textPrint.reset()
 
-    # Get count of joysticks
-    joystick_count = pygame.joystick.get_count()
 
-    textPrint.print(screen, "Number of joysticks: {}".format(joystick_count) )
-    textPrint.indent()
-    
-    # For each joystick:
-    for i in range(joystick_count):
-        joystick = pygame.joystick.Joystick(i)
-        joystick.init()
-    
-        textPrint.print(screen, "Joystick {}".format(i) )
-        textPrint.indent()
-    
-        # Get the name from the OS for the controller/joystick
-        name = joystick.get_name()
-        textPrint.print(screen, "Joystick name: {}".format(name) )
-        
-        # Usually axis run in pairs, up/down for one, and left/right for
-        # the other.
-        axes = joystick.get_numaxes()
-        textPrint.print(screen, "Number of axes: {}".format(axes) )
-        textPrint.indent()
 
-        arduinoController
-
-        arduino.joystick_update_axes([joystick.get_axis(1), joystick.get_axis(0)], 0, 1)
-        for i in range( axes ):
-            axis = joystick.get_axis(i)
-
-            textPrint.print(screen, "Axis {} value: {:>6.3f}".format(i, axis) )
-        textPrint.unindent()
     
     # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
     

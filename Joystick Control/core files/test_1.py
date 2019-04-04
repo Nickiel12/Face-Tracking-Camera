@@ -4,6 +4,10 @@ import pygame
 import logging
 from commandDict import commandDictLower, commandDictUpper # import the arduino commands
 
+pygame.init()
+pygame.joystick.init()
+clock = pygame.time.Clock()
+
 logging.basicConfig(level=logging.DEBUG, format= '%(asctime)s - %(levelname)s - %(message)s')
 
 class Joystick():
@@ -13,30 +17,35 @@ class Joystick():
     """
     def __init__(self, StepperInstance, JoystickIndex):
         self.Stepper = StepperInstance
-        pygame.init()
-        self.PygameJoystick = pygame.joystick.Joystick(JoystickIndex)
-        self.PygameJoystick.init()
+        self.joystick_count = pygame.joystick.get_count()
 
-    def get_axes(self, horizontal_axis, vertical_axis, zoom_axis):
-        logging.debug(type(self.PygameJoystick))
+    def get_axes(self, joystick, horizontal_axis, vertical_axis, zoom_axis):
+        logging.debug(type(joystick))
         
-        horiAxis = self.PygameJoystick.get_axis(horizontal_axis)
-        vertAxis = self.PygameJoystick.get_axis(vertical_axis)
-        zoomAxis = self.PygameJoystick.get_axis(zoom_axis)
+        horiAxis = joystick.get_axis(horizontal_axis)
+        vertAxis = joystick.get_axis(vertical_axis)
+        zoomAxis = joystick.get_axis(zoom_axis)
         return (horiAxis, vertAxis, zoom_axis)
 
     def begin_joystick(self, loop = True, horizontal_axis = 0, vertical_axis = 1, zoom_axis = 3):
 
-        currentHorizontalAxis, currentVerticalAxis, currentZoomAxis = self.get_axes(horizontal_axis, vertical_axis, zoom_axis)
+        for i in range(self.joystick_count):
+            joystick = pygame.joystick.Joystick(i)
+            joystick.init()
+            logging.debug(pygame.joystick.get_count())
+            
+            #for i in range( axes ):
+            #    axis = joystick.get_axis(i)
+            currentHorizontalAxis, currentVerticalAxis, currentZoomAxis = self.get_axes(joystick, horizontal_axis, vertical_axis, zoom_axis)
 
-        logging.debug(currentHorizontalAxis)
-        
-        self.Stepper.write_axes(currentVerticalAxis, currentHorizontalAxis)
+            logging.debug(currentHorizontalAxis)
+            
+            self.Stepper.write_axes(currentVerticalAxis, currentHorizontalAxis)
 
-        if self.PygameJoystick.get_button(0) == 1:
-            loop = False
-        if loop == True:
-            self.begin_joystick(loop, horizontal_axis, vertical_axis, zoom_axis)
+            if joystick.get_button(0) == 1:
+                loop = False
+            if loop == True:
+                self.begin_joystick(loop, horizontal_axis, vertical_axis, zoom_axis)
 
 class Controller():
     """
