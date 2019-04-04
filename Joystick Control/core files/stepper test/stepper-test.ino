@@ -62,7 +62,8 @@ void tilt(bool down, int speed) { //A function that turns the stepperTilt motor
 }
 
 void stop(bool tilt) {
-    /*A function that stops the motor of choice
+    /*
+    A function that stops the motor of choice
     */
     if (tilt == true) { //If the boolean 'tilt' is true, stop the stepperTilt motor
         stepperTilt.setMaxSpeed(0);
@@ -91,7 +92,8 @@ void setup()
 void loop()
 {
     if (Serial.available() == 0){
-        stop
+        stop(true);
+        stop(false);
     }
     while(Serial.available() > 0) {
         // read the incoming byte:

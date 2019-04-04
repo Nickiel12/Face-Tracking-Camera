@@ -1,7 +1,7 @@
 import pygame
 import test
 
-arduino = test.Controller('COM5').Stepper()
+arduinoController = test.Controller('COM5')
 
 #arduino = ardModule.Controller('COM5').Servo()
 
@@ -38,7 +38,7 @@ class TextPrint:
 pygame.init()
  
 # Set the width and height of the screen [width,height]
-size = [500, 700]
+size = [500, 500]
 screen = pygame.display.set_mode(size)
 
 pygame.display.set_caption("My Game")
@@ -92,37 +92,14 @@ while done==False:
         textPrint.print(screen, "Number of axes: {}".format(axes) )
         textPrint.indent()
 
-        parseAxes = [joystick.get_axis(1), joystick.get_axis(0)]
+        arduinoController
 
-        arduino.update_axes(parseAxes, 0, 1)
+        arduino.joystick_update_axes([joystick.get_axis(1), joystick.get_axis(0)], 0, 1)
         for i in range( axes ):
             axis = joystick.get_axis(i)
 
             textPrint.print(screen, "Axis {} value: {:>6.3f}".format(i, axis) )
         textPrint.unindent()
-            
-        buttons = joystick.get_numbuttons()
-        textPrint.print(screen, "Number of buttons: {}".format(buttons) )
-        textPrint.indent()
-
-        for i in range( buttons ):
-            button = joystick.get_button( i )
-            textPrint.print(screen, "Button {:>2} value: {}".format(i,button) )
-        textPrint.unindent()
-            
-        # Hat switch. All or nothing for direction, not like joysticks.
-        # Value comes back in an array.
-        hats = joystick.get_numhats()
-        textPrint.print(screen, "Number of hats: {}".format(hats) )
-        textPrint.indent()
-
-        for i in range( hats ):
-            hat = joystick.get_hat( i )
-            textPrint.print(screen, "Hat {} value: {}".format(i, str(hat)) )
-        textPrint.unindent()
-        
-        textPrint.unindent()
-
     
     # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
     
