@@ -30,8 +30,8 @@ void backwardStepTilt() {
     myStepperTilt->onestep(BACKWARD, MICROSTEP);
 }
 
-int MaxSpeedMulitplierTilt = 2; //The base multiplier for the steppers speed
-int MaxSpeedMulitplierTurn = 2; //change these number to adjust how fast the motors turn
+int MaxSpeedMulitplierTilt = 10; //The base multiplier for the steppers speed
+int MaxSpeedMulitplierTurn = 10; //change these number to adjust how fast the motors turn
 
 // Now we'll wrap both steppers in an AccelStepper object
 AccelStepper stepperTurn(forwardstepTurn, backwardStepTurn);
@@ -102,65 +102,65 @@ void loop()
 
         switch(axes){
             case 'a': //level 1 up
-                tilt(false,1);
+                tilt(true,1);
                 break;
             case 'b': //level2 up
-                tilt(false,2);
+                tilt(true,2);
                 break;
             case 'c': //level3 up
-                tilt(false,3);
+                tilt(true,3);
                 break;
             case 'd': //level4 up
-                tilt(false,4);
+                tilt(true,4);
                 break;
             case 'e': //level5 up
-                tilt(false,5);
+                tilt(true,5);
                 break;
             case 'f': //level6 up
-                tilt(false,6);
+                tilt(true,6);
                 break;
             case 'g': //level 7 up
-                tilt(false,7);
+                tilt(true,7);
                 break;
             case 'h': //level 8 up
-                tilt(false,8);
+                tilt(true,8);
                 break;
             case 'i': //level 9 up
-                tilt(false,9);
+                tilt(true,9);
                 break;
             case 'j': //level 10 up
-                tilt(false,10);
+                tilt(true,10);
                 break;
             
             case 'k': //level 1 down
-                tilt(true, 1);
+                tilt(false, 1);
                 break;
             case 'l': //level 2 down
-                tilt(true, 2);
+                tilt(false, 2);
                 break;
             case 'm': //level 3 down
-                tilt(true, 3);
+                tilt(false, 3);
                 break;
             case 'n': //level 4 down
-                tilt(true, 4);
+                tilt(false, 4);
                 break;
             case 'o': //level 5 down
-                tilt(true, 5);
+                tilt(false, 5);
                 break;
             case 'p': //level 6 down
-                tilt(true, 6);
+                tilt(false, 6);
                 break;
             case 'q': //level 7 down
-                tilt(true, 7);
+                tilt(false, 7);
                 break;
             case 'r': //level 8 down
-                tilt(true, 8);
+                tilt(false, 8);
                 break;
             case 's': //level 9 down
-                tilt(true, 9);
+                tilt(false, 9);
                 break;
             case 't': //level 10 down
-                tilt(true, 10);
+                tilt(false, 10);
                 break;
             case 'A': //level 1 right
                 turn(true, 1);
