@@ -2,6 +2,8 @@
 #include <ESP8266mDNS.h>
 #include <WiFiUdp.h>
 
+//IP is 10.0.0.128
+
 const char* ssid = "Netgear1";
 const char* password = "a3aaf93071";
 
