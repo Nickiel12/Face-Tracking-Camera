@@ -41,6 +41,13 @@ void setup(void){
   server.on("/", HTTP_GET, handleRoot);        // Call the 'handleRoot' function when a client requests URI "/"
   server.on("/login", HTTP_POST, handleLogin); // Call the 'handleLogin' function when a POST request is made to URI "/login"
   server.onNotFound(handleNotFound);           // When a client requests an unknown URI (i.e. something other than "/"), call function "handleNotFound"
+  
+  // you can also do this
+  /*
+  server.onNotFound([](){
+    server.send(404, "text/plain", "404: Not found");
+  });
+  */
 
   server.begin();                            // Actually start the server
   Serial.println("HTTP server started");
