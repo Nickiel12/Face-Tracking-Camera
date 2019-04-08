@@ -12,13 +12,15 @@ void handleRoot();              // function prototypes for HTTP handlers
 void handleLED();
 void handleNotFound();
 
+int ledPin = D1;
+
 void setup(void){
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
 
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, LOW);
 
   wifiMulti.addAP("Netgear1", "a3aaf93071");   // add Wi-Fi networks you want to connect to
   wifiMulti.addAP("Netgear4", "JesusLives");
@@ -59,7 +61,7 @@ void handleRoot() {                         // When URI / is requested, send a w
 }
 
 void handleLED() {                          // If a POST request is made to URI /LED
-  digitalWrite(LED_BUILTIN,!digitalRead(LED_BUILTIN));      // Change the state of the LED
+  digitalWrite(ledPin,!digitalRead(ledPin));      // Change the state of the LED
   server.sendHeader("Location","/");        // Add a header to respond with a new location for the browser to go to the home page again
   server.send(303);                         // Send it back to the browser with an HTTP status 303 (See Other) to redirect
 }
