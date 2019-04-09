@@ -12,6 +12,7 @@ Servo myservo;  // create servo object to control a servo
 void setup() {
  Serial.begin(9600);
  myservo.attach(9);  //the pin for the servo control 
+ myservo.write(90);
  Serial.println("servo-test-21"); // so I can keep track of what is loaded
 }
 
