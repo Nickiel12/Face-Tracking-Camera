@@ -1,0 +1,30 @@
+.centerImg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    width: 75%;
+}
+
+body {
+    background-color: darkgrey;
+}
+
+#SideButton {
+    background-color: rgb(26, 177, 214);
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+
+    position: relative;
+    top: 65px;
+}
+
+.centered{
+    margin-left: 15%;
+    margin-right: 15%;
+    border:5px solid black
+}
