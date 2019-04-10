@@ -1,16 +1,20 @@
 #include <Servo.h>
 
-Servo servoTilt//, servoTurn;
+Servo servoTilt;//, servoTurn;
 
-int tiltMicroSeconds = 1100;
+int tiltMicroSeconds = 1500;
 int maxTilt = 1700;
+int minTilt = 650;
+int tiltSpeedDivisor = 4;
+
+int speedMultiplier = 0;
 //int turnMicroSeconds = 1100;
 //int maxTurn = ??;
 
 void setup() {
-    Serial.begin(19200);
+    Serial.begin(9600);
     servoTilt.attach(9);
-    servoTilt.writeMicroseconds(microSeconds);
+    servoTilt.writeMicroseconds(tiltMicroSeconds);
 }
 
 /*
@@ -33,14 +37,14 @@ void turn(bool right, int speed){
 
 void tilt(bool down, int speed){
     if (down == true){
-        if (tiltMicroSeconds + speed < maxTilt){
-            tiltMicroSeconds += speed;
+        if (tiltMicroSeconds + speed/tiltSpeedDivisor < maxTilt){
+            tiltMicroSeconds += speed/tiltSpeedDivisor;
         }else{
             return;
         }
     } else {
-        if (tiltMicroSeconds - speed > 0) {
-            tiltMicroSeconds -= speed;
+        if (tiltMicroSeconds - speed/tiltSpeedDivisor > minTilt) {
+            tiltMicroSeconds -= speed/tiltSpeedDivisor;
         }else {
             return;
         }
@@ -187,4 +191,5 @@ void loop() {
     }
     servoTilt.writeMicroseconds(tiltMicroSeconds);
     //servoTurn.writeMicroseconds(turnMicroSeconds);
+    delay(speedMultiplier);
 }

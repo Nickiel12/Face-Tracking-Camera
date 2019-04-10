@@ -1,6 +1,7 @@
 {
-    "port": "COM5",
+    "port": "COM6",
     "output": "../build",
-    "sketch": "Joystick Control\\servo control\\joystick-servo.ino",
-    "board": "arduino:avr:uno"
+    "sketch": "arduino code\\ESP 8266\\wifi test\\websites\\SPIFFS test\\SPIFFS_test\\SPIFFS_test.ino",
+    "board": "esp8266:esp8266:nodemcuv2",
+    "configuration": "xtal=80,vt=flash,exception=disabled,eesz=4M2M,ip=lm2f,dbg=Disabled,lvl=None____,wipe=none,baud=115200"
 }

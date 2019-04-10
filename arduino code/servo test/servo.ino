@@ -32,8 +32,8 @@ void loop() {
    char carray[6]; //converting string to number
    readString.toCharArray(carray, sizeof(carray));
    n = atoi(carray); 
-   myservo.writeMicroseconds(n); // for microseconds
-   //myservo.write(n); //for degees 0-180
+   //myservo.writeMicroseconds(n); // for microseconds
+   myservo.write(n); //for degees 0-180
    readString="";
  } 
 }
