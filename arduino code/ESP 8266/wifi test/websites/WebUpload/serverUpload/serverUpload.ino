@@ -104,7 +104,7 @@ void handleFileUpload(){ // upload a new file to the SPIFFS
   HTTPUpload& upload = server.upload();
   if(upload.status == UPLOAD_FILE_START){
     String filename = upload.filename;
-    if(!filename.startsWith("/")){ filename = "/download_" + filename;
+    if(!filename.startsWith("/")){ filename = "download_" + filename;
     }else {
       filename = "download_" + filename;
     }
