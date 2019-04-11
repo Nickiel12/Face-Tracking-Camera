@@ -52,6 +52,13 @@ void setup() {
     handleFileUpload                                    // Receive and save the file
   );
 
+/*
+  server.on("/download", HTTP_POST, 
+  [](){server.send(); },
+  handleFileDownload
+  );
+*/
+
   server.onNotFound([]() {                              // If the client requests any URI
     if (!handleFileRead(server.uri()))                  // send it if it exists
       server.send(404, "text/plain", "404: Not Found"); // otherwise, respond with a 404 (Not Found) error
@@ -97,7 +104,10 @@ void handleFileUpload(){ // upload a new file to the SPIFFS
   HTTPUpload& upload = server.upload();
   if(upload.status == UPLOAD_FILE_START){
     String filename = upload.filename;
-    if(!filename.startsWith("/")) filename = "/"+filename;
+    if(!filename.startsWith("/")){ filename = "/download_" + filename;
+    }else {
+      filename = "download_" + filename;
+    }
     Serial.print("handleFileUpload Name: ");
     Serial.println(filename);
     fsUploadFile = SPIFFS.open(filename, "w");            // Open the file for writing in SPIFFS (create if it doesn't exist)
