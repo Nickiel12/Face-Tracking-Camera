@@ -1,6 +1,0 @@
-{
-    "port": "/dev/ttyACM0",
-    "output": "../build",
-    "sketch": "Joystick Control/stepper test/stepper-test/stepper-test.ino",
-    "board": "arduino:avr:uno"
-}
