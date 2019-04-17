@@ -31,7 +31,7 @@ void backwardStepTilt() {
 }
 
 int MaxSpeedMulitplierTilt = 10; //The base multiplier for the steppers speed
-int MaxSpeedMulitplierTurn = 10; //change these number to adjust how fast the motors turn
+int MaxSpeedMulitplierTurn = 50; //change these number to adjust how fast the motors turn
 
 // Now we'll wrap both steppers in an AccelStepper object
 AccelStepper stepperTurn(forwardstepTurn, backwardStepTurn);

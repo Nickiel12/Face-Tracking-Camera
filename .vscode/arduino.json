@@ -1,6 +1,0 @@
-{
-    "port": "COM5",
-    "output": "../build",
-    "sketch": "Joystick Control\\servo control\\joystick-servo\\joystick-servo.ino",
-    "board": "arduino:avr:uno"
-}
