@@ -1,12 +1,2 @@
-Setup should only be:
-
-pip install opencv-python numpy matplotlib pyserial
-
-"python.linting.pylintArgs": [
-        "--disable=all",
-        "--enable= F,E,unreachable, duplicate-key,unnecessary-semicolon,global-variable-not-assigned,unused-variable,binary-op-exception,bad-format-string,anomalous-backslash-in-string,bad-open-mode",
-        "--extension-pkg-whitelist=kivy",
-        "--extension-pkg-whitelist=numpy",
-        "--extension-pkg-whitelist=wx",
-        "--extension-pkg-whitelist=cv2"
-    ],
+pygame==1.9.5
+pyserial==3.4
