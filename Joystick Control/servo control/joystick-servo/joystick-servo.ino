@@ -1,39 +1,48 @@
 #include <Servo.h>
 
-Servo servoTilt;//, servoTurn;
+Servo servoTilt, servoTurn;
 
-int tiltMicroSeconds = 1500;
-int maxTilt = 1700;
-int minTilt = 650;
-int tiltSpeedDivisor = 4;
+int tiltServoPin = 9;
+int turnServoPin = 10;
 
-int speedMultiplier = 0;
-//int turnMicroSeconds = 1100;
-//int maxTurn = ??;
+int tiltMicroSeconds = 1700;
+int maxTilt = 2000;
+int minTilt = 0;
+int tiltSpeedDivisor = 8;
+
+int speedDelay = 0;
+
+int turnSpeedDivisor = 8;
+int maxTurn = 3000;
+int minTurn = 0;
+int turnMicroSeconds = 1500;
 
 void setup() {
     Serial.begin(9600);
-    servoTilt.attach(9);
+    servoTilt.attach(tiltServoPin);
     servoTilt.writeMicroseconds(tiltMicroSeconds);
+
+    servoTurn.attach(turnServoPin);
+    servoTurn.writeMicroseconds(turnMicroSeconds);
 }
 
-/*
+
 void turn(bool right, int speed){
     if (right == true){
-        if (turnMicroSeconds + speed < maxTurn){
-            turnMicroSeconds += speed;
+        if (turnMicroSeconds + speed/turnSpeedDivisor < maxTurn){
+            turnMicroSeconds += speed/turnSpeedDivisor;
         }else{
-            return
+            return;
         }
     } else {
-        if (turnMicroSeconds - speed > 0) {
-            turnMicroSeconds -= speed;
+        if (turnMicroSeconds - speed/turnSpeedDivisor > 0) {
+            turnMicroSeconds -= speed/turnSpeedDivisor;
         }else {
-            return
+            return;
         }
     }
 }
-*/
+
 
 void tilt(bool down, int speed){
     if (down == true){
@@ -124,7 +133,7 @@ void loop() {
                 tilt(false, 10);
                 break;
 
-            /*
+            
             case 'A': //level 1 right
                 turn(true, 1);
                 break;
@@ -186,10 +195,9 @@ void loop() {
             case 'T': //level 10 left
                 turn(false, 10);
                 break;
-            */
         }
     }
     servoTilt.writeMicroseconds(tiltMicroSeconds);
-    //servoTurn.writeMicroseconds(turnMicroSeconds);
-    delay(speedMultiplier);
+    servoTurn.writeMicroseconds(turnMicroSeconds);
+    delay(speedDelay);
 }

@@ -8,7 +8,9 @@
                 "D:\\\\programs\\\\Arduino\\\\tools\\\\**",
                 "D:\\\\programs\\\\Arduino\\\\hardware\\\\arduino\\\\avr\\\\**"
             ],
-            "forcedInclude": [],
+            "forcedInclude": [
+                "D:\\programs\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h"
+            ],
             "intelliSenseMode": "msvc-x64",
             "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe",
             "cStandard": "c11",
