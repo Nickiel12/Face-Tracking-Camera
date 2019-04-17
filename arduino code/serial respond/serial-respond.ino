@@ -1,5 +1,5 @@
 
-const int LEDPIN = 6
+const int LEDPIN = 6;
 
 void setup() {
     Serial.begin(9600);
