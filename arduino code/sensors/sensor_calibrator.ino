@@ -5,7 +5,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(hallSensorTop, INPUT_PULLUP);
   pinMode(hallSensorBottom, INPUT_PULLUP);
-  pinMode(touchSensor, INPUT);
+  pinMode(touchSensor, INPUT_PULLUP);
   Serial.println("begin");
 }
 
@@ -13,9 +13,23 @@ void loop() {
 
     top = digitalRead(hallSensorTop);
     bottom = digitalRead(hallSensorBottom);
-    touchSensor = digitalRead(touchSensor);
+    lever = digitalRead(touchSensor);
 
-    Serial.println(top);
-    Serial.println(bottom);
-    Serial.println(touchSensor);
+    if (top == LOW){
+      Serial.println("Top Triggered");
+    }
+
+    if (bottom == LOW){
+      Serial.println("Bottom Magnet Triggered");
+    }
+
+	if (lever == LOW){
+		Serial.println("microSwitch Triggered");
+
+	}
+	/*
+    if (lever == HIGH){
+      Serial.println("Bottom lever Triggered");
+    }
+	*/
 }
