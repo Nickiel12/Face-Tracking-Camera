@@ -27,9 +27,4 @@ void loop() {
 		Serial.println("microSwitch Triggered");
 
 	}
-	/*
-    if (lever == HIGH){
-      Serial.println("Bottom lever Triggered");
-    }
-	*/
 }
