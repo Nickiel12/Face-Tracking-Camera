@@ -2,6 +2,9 @@
 #include <AccelStepper.h>
 #include <Adafruit_MotorShield.h>
 
+int hallSensorTop = 2, hallSensorBottom = 3, touchSensor = 4; // Upper sensor, lower sensor, and internal touch switch
+int top, bottom, lever; // vars to store sensor values
+
 Adafruit_MotorShield AFMStop = Adafruit_MotorShield(); //Initialize the motor shield
 
 // Connect two steppers with 200 steps per revolution (1.8 degree)
@@ -42,6 +45,10 @@ void setup()
 	AFMStop.begin(); // Start the top shield
 
 	Serial.begin(19200);  //Begin serial input
+
+    pinMode(hallSensorTop, INPUT_PULLUP); // Set the input pins
+    pinMode(hallSensorBottom, INPUT_PULLUP);
+    pinMode(touchSensor, INPUT_PULLUP);
   
 	stepperTurn.setMaxSpeed(0); //Begin motors
 	stepperTurn.setAcceleration(2000.0);
@@ -56,8 +63,9 @@ void turn(bool right, int speed) { //A function that turns the stepperTurn
     stepperTurn.setMaxSpeed(speed * MaxSpeedMulitplierTurn); //set the speed
 
     if (right == true){ //If the boolean 'right' if true, turn stepperTurn to the right
-        stepperTurn.moveTo(stepperTurn.currentPosition()+50);
-
+        if (lever != LOW){
+            stepperTurn.moveTo(stepperTurn.currentPosition()+50);
+        }
     }else { //If the boolean 'right' is false, turn stepperTurn motor to the left
         stepperTurn.moveTo(stepperTurn.currentPosition()-50);
     }
@@ -71,7 +79,9 @@ void tilt(bool down, int speed) { //A function that turns the stepperTilt motor
         stepperTilt.moveTo(stepperTilt.currentPosition()+50);
 
     }else { //If the boolean 'down' if false, tilt the motor up
-        stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+        if (top != LOW){
+            stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+        }
     }
 }
 
@@ -91,6 +101,10 @@ void stop(bool tilt) {
 
 void loop()
 {
+    top = digitalRead(hallSensorTop); // Read the sensor pins
+    bottom = digitalRead(hallSensorBottom);
+    lever = digitalRead(touchSensor);
+
     while(Serial.available() > 0) {
         // read the incoming byte:
         char axes = Serial.read();
