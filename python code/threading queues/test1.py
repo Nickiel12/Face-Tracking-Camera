@@ -6,3 +6,5 @@ from queue import Queue
 
 #what am I trying to read from the arduino again?????
 # ahh yes, the stepper motor positions so I can see how they work
+
+#https://docs.python.org/3/library/queue.html
