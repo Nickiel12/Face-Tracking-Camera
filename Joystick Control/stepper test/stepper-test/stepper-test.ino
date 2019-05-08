@@ -9,8 +9,8 @@ Adafruit_MotorShield AFMStop = Adafruit_MotorShield(); //Initialize the motor sh
 
 // Connect two steppers with 200 steps per revolution (1.8 degree)
 // to the shield
-Adafruit_StepperMotor *myStepperTurn = AFMStop.getStepper(200, 1); //Attach a stepper motor to motor mount 1, M1 & M2
-Adafruit_StepperMotor *myStepperTilt = AFMStop.getStepper(200, 2); //Attach a second stepper motor to motor mount 2, M3 & M4
+Adafruit_StepperMotor *myStepperTilt = AFMStop.getStepper(200, 1); //Attach a stepper motor to motor mount 1, M1 & M2
+Adafruit_StepperMotor *myStepperTurn = AFMStop.getStepper(200, 2); //Attach a second stepper motor to motor mount 2, M3 & M4
 
 // you can change these to SINGLE or DOUBLE or INTERLEAVE or MICROSTEP!
 //MICROSTEP sets the motor to move in 1/16 steps
@@ -67,7 +67,9 @@ void turn(bool right, int speed) { //A function that turns the stepperTurn
             stepperTurn.moveTo(stepperTurn.currentPosition()+50);
         }
     }else { //If the boolean 'right' is false, turn stepperTurn motor to the left
-        stepperTurn.moveTo(stepperTurn.currentPosition()-50);
+        if (bottom != LOW){
+            stepperTurn.moveTo(stepperTurn.currentPosition()-50);
+        }
     }
 }
 
@@ -76,11 +78,11 @@ void tilt(bool down, int speed) { //A function that turns the stepperTilt motor
     stepperTilt.setMaxSpeed(speed * MaxSpeedMulitplierTilt); //Sets the speed
 
     if (down == true) { //If the boolean 'down' is true, tilt the motor down
-        stepperTilt.moveTo(stepperTilt.currentPosition()+50);
+        stepperTilt.moveTo(stepperTilt.currentPosition()-50);
 
     }else { //If the boolean 'down' if false, tilt the motor up
         if (top != LOW){
-            stepperTilt.moveTo(stepperTilt.currentPosition()-50);
+            stepperTilt.moveTo(stepperTilt.currentPosition()+50);
         }
     }
 }
