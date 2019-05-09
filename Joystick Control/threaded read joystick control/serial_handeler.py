@@ -5,12 +5,16 @@ import queue
 from queue import Queue
 from threading import Thread
 
+import re
+
 import logging 
 from logging import debug
 
 logging.basicConfig(level=logging.DEBUG, format= '%(asctime)s - %(levelname)s - %(message)s')
 
 class SerialHandeler():
+
+    regex = ["!","\r\n"]
 
     serialQueue = Queue(maxsize=300)
 
@@ -49,8 +53,14 @@ class SerialHandeler():
 
             if self.read == "read":
                 self.SerialPort.write(b"y")
-                port_read = self.SerialPort.read_until(terminator=b"\r\n")
-                port_read = port_read[:-2]
-                debug(port_read)
-                
+
+                port_read = self.SerialPort.read_until(terminator=b"!!!")
+                port_read = port_read.decode("utf-8")
+
+                port_read.replace("!","").splitlines()
+
+                for i in port_read:
+                    if i == " " or i == "\n" or i == "\r" or i == "!":
+                        continue
+                    debug(i)
 

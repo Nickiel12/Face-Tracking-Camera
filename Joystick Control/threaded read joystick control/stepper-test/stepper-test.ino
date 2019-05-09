@@ -118,7 +118,9 @@ void loop()
 
         switch(axes){
             case 'y': //send signal
-                Serial.println("op");
+                Serial.print('o');
+                Serial.print('n');
+                Serial.print("!!!");
                 break;
             case 'a': //level 1 up
                 tilt(true,1);
