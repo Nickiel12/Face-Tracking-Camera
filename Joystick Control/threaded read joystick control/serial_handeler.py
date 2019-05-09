@@ -29,10 +29,11 @@ class SerialHandeler():
     def write(self, value):
         serialQueue.put(value)
 
+#TODO fix the latency
     def threaded_write(self, *args, **kwargs):
         with serialQueue.mutex:
             serialQueue.queue.clear()
-            
+
         while self.threadRun == True:
             currentItem = serialQueue.get()
         
