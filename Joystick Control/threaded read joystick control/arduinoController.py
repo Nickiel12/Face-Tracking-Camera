@@ -1,15 +1,19 @@
-import serial
-import struct
 import pygame
+
+import serial_handeler
 import threading
-import logging
+
+import logging 
+from logging import debug
+
+logging.basicConfig(level=logging.DEBUG, format= '%(asctime)s - %(levelname)s - %(message)s')
+
 from commandDict import commandDictLower, commandDictUpper # import the arduino commands
 
 pygame.init()
 pygame.joystick.init()
-clock = pygame.time.Clock()
 
-logging.basicConfig(level=logging.DEBUG, format= '%(asctime)s - %(levelname)s - %(message)s')
+clock = pygame.time.Clock()
 
 class Joystick():
     """
@@ -30,6 +34,8 @@ class Joystick():
 
     def begin_joystick(self, loop = True, horizontal_axis = 0, vertical_axis = 1, zoom_axis = 3):
 
+        self.Stepper.Controller.serialHandeler.start()
+
         self.thread = threading.Thread(target = self.loop, args=(loop, horizontal_axis, vertical_axis, zoom_axis))
         self.thread.start()
 
@@ -42,20 +48,20 @@ class Joystick():
             self.Stepper.write_axes(currentVerticalAxis, currentHorizontalAxis)
 
             if self.joystick.get_button(0) == 1:
+                self.Stepper.Controller.serialHandeler.stop()
                 loop = False
-
 
 class Controller():
     """
     Create an instance of Controller to access the Stepper and Servo classes
-    'COMPort', the serial port that the arduino is connected to 
+    'COMPort', the serial port that the serialHandeler is connected to 
     'BaudRate', default set to 19200, change if you use a different baudrate 
     """
     def __init__(self, COMPort, BaudRate = 19200): #Makes the Controller class
         assert type(COMPort) == str  #Confirms that COMPort is the correct type
         assert type(BaudRate) == int  #Asserts that BaudRate is an int
 
-        Controller.arduino = serial.Serial(COMPort, BaudRate, timeout=.1) #Open the serial port, and set it to a variable
+        Controller.serialHandeler = serial_handeler.SerialHandeler(COMPort, BaudRate, timeout=.1) #Open the serial port, and set it to a variable
                                                 #that is able to be accessed by the other classes
 
     class Stepper(): 
@@ -64,7 +70,8 @@ class Controller():
         """
                     
         def __init__(self):
-            self.arduino = Controller.arduino
+            self.serialHandeler = Controller.serialHandeler
+            self.Controller = Controller
 
         def write_axes(self, vertAxis, horAxis):
             assert type(horAxis) == float, 'Not int'
@@ -88,7 +95,7 @@ class Controller():
                 outputBytes.append('Z'.encode('utf-8'))
             else:
                 outputBytes.append(commandDictUpper[horSpeed])
+            outputBytes.append("Read")
             
             for i in outputBytes:
-                self.arduino.write(i)
-                logging.debug(i)
+                self.serialHandeler.write(i)
