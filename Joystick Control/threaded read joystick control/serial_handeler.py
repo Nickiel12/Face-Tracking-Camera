@@ -1,6 +1,7 @@
 import serial
 import time
 
+import queue
 from queue import Queue
 from threading import Thread
 
@@ -9,11 +10,15 @@ from logging import debug
 
 logging.basicConfig(level=logging.DEBUG, format= '%(asctime)s - %(levelname)s - %(message)s')
 
-serialQueue = Queue(maxsize=300)
-
 class SerialHandeler():
 
+    serialQueue = Queue(maxsize=300)
+
     threadRun = False
+
+    vertical = 0
+    horizontal = 0
+    read = 0
 
     def __init__(self, ComPort, BaudRate, timeout):
         self.SerialPort = serial.Serial(ComPort, BaudRate, timeout=timeout)
@@ -27,28 +32,25 @@ class SerialHandeler():
         self.threadRun = False
 
     def write(self, value):
-        serialQueue.put(value)
+        self.vertical = value["Vert"]
+        self.horizontal = value["Hor"]
+        self.read = value["read"]
 
 #TODO fix the latency
     def threaded_write(self, *args, **kwargs):
-        with serialQueue.mutex:
-            serialQueue.queue.clear()
 
-        while self.threadRun == True:
-            currentItem = serialQueue.get()
+        while True:
+            
+            if self.threadRun == False:
+                return
         
-            if currentItem == "Read":
+            self.SerialPort.write(self.vertical)
+            self.SerialPort.write(self.horizontal)
+
+            if self.read == "read":
                 self.SerialPort.write(b"y")
-
                 port_read = self.SerialPort.read_until(terminator=b"\r\n")
-        
-                if port_read == b"":
-                    del port_read
-                    continue
                 port_read = port_read[:-2]
-                port_read = str(port_read)
                 debug(port_read)
-            else:
-                self.SerialPort.write(currentItem)
-                debug(f"Writing {currentItem} to Serial")
+                
 

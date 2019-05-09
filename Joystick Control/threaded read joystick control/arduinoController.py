@@ -84,8 +84,6 @@ class Controller():
 
         def write_to_arduino(self, vertSpeed, horSpeed):
             outputBytes = []
-            logging.debug(vertSpeed)
-            logging.debug(horSpeed)
 
             if vertSpeed == 0:
                 outputBytes.append('z'.encode('utf-8'))
@@ -95,7 +93,6 @@ class Controller():
                 outputBytes.append('Z'.encode('utf-8'))
             else:
                 outputBytes.append(commandDictUpper[horSpeed])
-            outputBytes.append("Read")
+            outputBytes.append("read")
             
-            for i in outputBytes:
-                self.serialHandeler.write(i)
+            self.serialHandeler.write({"Vert":outputBytes[0], "Hor":outputBytes[1], "read":outputBytes[2]})
