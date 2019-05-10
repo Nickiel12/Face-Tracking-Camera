@@ -101,6 +101,16 @@ void stop(bool tilt) {
     }
 }
 
+void startup_calibration(){
+    /*
+    At the end of setup, this function should be called to turn the platform all the way to the right 
+    till it hits the switch, then it should turn to the left till the hall effect sensor is triggered, while this is happening
+    the vertical motor is tilting up till the sensor grabs it, then it goes down to grab the position of other magnet
+
+    When the limits are hit, the stepperTilt & stepperTurn .currentPosition() is saved for use
+    */
+}
+
 void loop()
 {
     top = digitalRead(hallSensorTop); // Read the sensor pins
