@@ -5,6 +5,10 @@
 int hallSensorTop = 2, hallSensorBottom = 3, touchSensor = 4; // Upper sensor, lower sensor, and internal touch switch
 int top, bottom, lever; // vars to store sensor values
 
+int tiltUpMax = 0, tiltDownMax = 0, turnRightMax = 0, turnLeftMax = 0;
+
+bool calibrated = false;
+
 Adafruit_MotorShield AFMStop = Adafruit_MotorShield(); //Initialize the motor shield
 
 // Connect two steppers with 200 steps per revolution (1.8 degree)
@@ -109,6 +113,46 @@ void startup_calibration(){
 
     When the limits are hit, the stepperTilt & stepperTurn .currentPosition() is saved for use
     */
+
+    stepperTurn.setMaxSpeed(50);
+    stepperTilt.setMaxSpeed(50);
+
+    while calibrated == false;{
+
+        top = digitalRead(hallSensorTop); // Read the sensor pins
+        bottom = digitalRead(hallSensorBottom);
+        lever = digitalRead(touchSensor);
+
+        if (turnRightMax == 0){
+            if (lever == LOW){
+                turnRightMax = myStepperTurn.currentPosition();
+            }else{
+                stepperTurn.move(25);
+            }
+        } else (turnLeftMax == 0){
+            if (bottom == LOW){
+                turnLeftMax = stepperTurn.currentPosition();
+            }else{
+                stepperTurn.move(-25);
+            }
+        }
+        if (tiltUpMax == 0){
+            if (top == LOW){
+                tiltUpMax = stepperTilt.currentPosition();
+            }else{
+                stepperTilt.move(-50);
+            }
+        }else{
+            stepperTilt.move(50)
+            if(top == LOW){
+                tiltDownMax = stepperTilt.currentPosition();
+                if (tiltDownMax == tiltUpMax){
+                    tiltDownMax = 0
+                }
+            }
+        }
+    calibrated = true;
+    }
 }
 
 void loop()
